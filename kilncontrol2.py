@@ -198,8 +198,11 @@ class Ui_MainWindow(object):
             self.pid.update(temp)
         if self.pid.output > 100:
             self.pid_output = 100
+        elif self.pid.output < 0:
+            self.pid_output = 0
         else:
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
+
         #temp = 100.0
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
         if self.radioButton_2.isChecked():  # Check to see if we should be running kiln
