@@ -16,7 +16,7 @@ from time import strftime
 import math
 import os
 from getSetTempDialog import Ui_Dialog
-from PID import PID
+import PID
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.OUT)
@@ -25,13 +25,19 @@ SPI_PORT = 0
 SPI_DEVICE = 0
 sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT,SPI_DEVICE))
 
+P = 1.2
+I = 1
+D = 0.001
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.targetTemp = 0.0
         self.t = 0
         logdatetime = strftime("%Y-%m-%d %H:%M:%S")
         self.filename = "/home/pi/kilncontrol/kilnlog/" + logdatetime
-        
+        self.pid = PID.PID(P, I, D)
+        self.pid.SetPoint = 0.0
+        self.pid.setSampleTime(1.0)
 
         MainWindow.setObjectName("Kiln Control")
         MainWindow.resize(800, 600)
@@ -173,15 +179,18 @@ class Ui_MainWindow(object):
 	
     def targetTempChange(self):
         self.targetTemp = self.sBKilnTargetTemp.value()
+        self.pid.SetPoint = self.targetTemp
         self.setTempText.setText(str(self.targetTemp)+ '\N{DEGREE SIGN}C')
 	
     def setNewTargetTemp(self):
         self.targetTemp = int(self.setTempText.toPlainText())
+        self.pid.SetPoint = self.targetTemp
         self.sBKilnTargetTemp.setValue(self.targetTemp)
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
     
     def getTemperatures(self):
         temp = sensor.readTempC()
+        self.pid.update(temp)
         #temp = 100.0
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
         if self.radioButton_2.isChecked():
