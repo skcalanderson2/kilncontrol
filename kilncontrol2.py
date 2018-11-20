@@ -206,8 +206,8 @@ class Ui_MainWindow(object):
                 self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
 
             # Update the duty cycle on the PWM from the PID function
-            PID_GPIO.start(self.pid_output/100)
-            print(self.pid_output/100)
+            PID_GPIO.start(self.pid_output)
+            print(self.pid_output)
             if math.isnan(temp):
                 print(sensor.readState())
 
@@ -254,5 +254,6 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.showFullScreen()
     # MainWindow.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_()
+    GPIO.cleanup()
 
