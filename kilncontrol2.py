@@ -38,6 +38,7 @@ class Ui_MainWindow(object):
         self.pid = PID.PID(P, I, D)
         self.pid.SetPoint = 0.0
         self.pid.setSampleTime(1.0)
+        self.pid_output = 0.0
 
         MainWindow.setObjectName("Kiln Control")
         MainWindow.resize(800, 600)
@@ -191,6 +192,7 @@ class Ui_MainWindow(object):
     def getTemperatures(self):
         temp = sensor.readTempC()
         self.pid.update(temp)
+        self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
         #temp = 100.0
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
         if self.radioButton_2.isChecked():
