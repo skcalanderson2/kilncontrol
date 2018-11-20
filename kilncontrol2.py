@@ -21,6 +21,8 @@ import PID
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.OUT)
 
+PID_GPIO = GPIO.PWM(16, .2)
+
 SPI_PORT = 0
 SPI_DEVICE = 0
 sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT,SPI_DEVICE))
@@ -39,6 +41,7 @@ class Ui_MainWindow(object):
         self.pid.SetPoint = 0.0
         self.pid.setSampleTime(1.0)
         self.pid_output = 0.0
+        self.pid_status = 'off'
 
         MainWindow.setObjectName("Kiln Control")
         MainWindow.resize(800, 600)
@@ -191,23 +194,36 @@ class Ui_MainWindow(object):
     
     def getTemperatures(self):
         temp = sensor.readTempC()
-        self.pid.update(temp)
+        if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
+            self.pid.update(temp)
         self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
         #temp = 100.0
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
-        if self.radioButton_2.isChecked():
+        if self.radioButton_2.isChecked():  # Check to see if we should be running kiln
             self.logData(temp)
+            if self.pid_status == 'off':
+                self.pid_status = 'on'
+                self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
+
+            # Update the duty cycle on the PWM from the PID function
+            PID_GPIO.start(self.pid_output/100)
+            print(self.pid_output/100)
             if math.isnan(temp):
                 print(sensor.readState())
-            if temp < self.targetTemp or math.isnan(temp):
-                self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
-                GPIO.output(16, GPIO.HIGH)
-            else:
-                self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
-                GPIO.output(16, GPIO.LOW)
+
+            #  Manually turn on or off heating elements
+#            if temp < self.targetTemp or math.isnan(temp):
+#                self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
+#                GPIO.output(16, GPIO.HIGH)
+#            else:
+#                self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
+#                GPIO.output(16, GPIO.LOW)
         else:
             self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
-            GPIO.output(16, GPIO.LOW)
+            if self.pid_status == 'on':
+                PID_GPIO.stop()
+                self.pid_status = 'off'
+            #GPIO.output(16, GPIO.LOW)
 
     def logData(self, theTemp):
         log = open(self.filename, "a")        
