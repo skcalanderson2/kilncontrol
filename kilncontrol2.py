@@ -209,8 +209,10 @@ class Ui_MainWindow(object):
             self.logData(temp)
             if self.pid_status == 'off':
                 self.pid_status = 'on'
-                self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
-
+                if self.pid_output > 0:
+                    self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
+                else:
+                    self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
             # Update the duty cycle on the PWM from the PID function
             PID_GPIO.start(self.pid_output)
             print(self.pid_output)
