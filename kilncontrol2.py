@@ -254,6 +254,6 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     # MainWindow.showFullScreen()
     MainWindow.show()
-    sys.exit(app.exec_()
+    sys.exit(app.exec_())
     GPIO.cleanup()
 
