@@ -16,6 +16,7 @@ from time import strftime
 import math
 import os
 from getSetTempDialog import Ui_Dialog
+from PID import PID
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.OUT)
