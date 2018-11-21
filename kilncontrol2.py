@@ -7,14 +7,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import pyqtSlot
-
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 import RPi.GPIO as GPIO
 from time import strftime
 import math
-import os
 from getSetTempDialog import Ui_Dialog
 import PID
 
@@ -27,8 +24,8 @@ SPI_PORT = 0
 SPI_DEVICE = 0
 sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT,SPI_DEVICE))
 
-P = 1.2
-I = 1
+P = 1.0
+I = 1.0
 D = 0.001
 
 class Ui_MainWindow(object):
