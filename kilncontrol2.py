@@ -28,6 +28,18 @@ P = 1.0
 I = 1.0
 D = 0.001
 
+Temp_Profile = {}
+Temp_Profile[1] = [2.5,60,150]
+Temp_Profile[2] = [0.0,180,150]
+Temp_Profile[3] = [3.6,60,370]
+Temp_Profile[4] = [0.0,120,370]
+Temp_Profile[5] = [3.1,120,750]
+Temp_Profile[6] = [0.0,240,750]
+Temp_Profile[7] = [-2.5,60,600]
+
+CURRENT_Temp_Profile_Number  = 0
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.targetTemp = 0.0
