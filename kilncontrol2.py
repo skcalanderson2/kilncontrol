@@ -105,7 +105,7 @@ class Ui_MainWindow(object):
         self.radioButton_profile.setObjectName("radioButton_profile")
 
         self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox)
-        self.radioButton_2.setGeometry(QtCore.QRect(10, 60, 200, 24))
+        self.radioButton_2.setGeometry(QtCore.QRect(10, 50, 200, 24))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(18)
