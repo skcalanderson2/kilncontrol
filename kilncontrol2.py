@@ -95,6 +95,7 @@ class Ui_MainWindow(object):
         font.setFamily("FreeSans")
         self.groupBox.setFont(font)
         self.groupBox.setObjectName("groupBox")
+
         self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox)
         self.radioButton_2.setGeometry(QtCore.QRect(10, 40, 200, 24))
         font = QtGui.QFont()
@@ -102,6 +103,7 @@ class Ui_MainWindow(object):
         font.setPointSize(18)
         self.radioButton_2.setFont(font)
         self.radioButton_2.setObjectName("radioButton_2")
+        
         self.radioButton = QtWidgets.QRadioButton(self.groupBox)
         self.radioButton.setGeometry(QtCore.QRect(10, 80, 200, 24))
         font = QtGui.QFont()
@@ -184,8 +186,8 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Current Temperature"))
 #        self.pBSetKilnTargetTemp.setText(_translate("MainWindow", "Set Kiln Target Temperature"))
         self.groupBox.setTitle(_translate("MainWindow", "Kiln Control"))
-        self.radioButton_2.setText(_translate("MainWindow", "Kiln Control On"))
-        self.radioButton.setText(_translate("MainWindow", "Kiln Control Off"))
+        self.radioButton_2.setText(_translate("MainWindow", "Kiln Manual On"))
+        self.radioButton.setText(_translate("MainWindow", "Kiln  Off"))
         self.label_2.setText(_translate("MainWindow", "Current Target Temperature"))
         self.sBKilnTargetTemp.setSuffix(_translate("MainWindow", "°C"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
