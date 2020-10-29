@@ -28,14 +28,13 @@ P = 1.0
 I = 1.0
 D = 0.001
 
-Temp_Profile = {}
-Temp_Profile[1] = [2.5,0,60,150]
-Temp_Profile[2] = [0.0,61,240,150]
-Temp_Profile[3] = [3.6,241,300,370]
-Temp_Profile[4] = [0.0,301,420,370]
-Temp_Profile[5] = [3.1,421,540,750]
-Temp_Profile[6] = [0.0,541,780,750]
-Temp_Profile[7] = [-2.5,781,840,600]
+Temp_Profile = [[2.5,0,60,150],
+                [0.0,61,240,150],
+                [3.6,241,300,370],
+                [0.0,301,420,370],
+                [3.1,421,540,750],
+                [0.0,541,780,750],
+                [-2.5,781,840,600]]
 
 CURRENT_Temp_Profile_Number  = 0
 PROFILE_TIME = 0
@@ -222,12 +221,12 @@ class Ui_MainWindow(object):
         PROFILE_TIME = PROFILE_TIME + 1
         for profile in Temp_Profile:
             print(profile)
-            #ramp = profile[0]
-            #startTime = profile[1]
-            #endTime = profile[2]
-            #finalTemp = profile[3]
-            ###if PROFILE_TIME >= startTime and PROFILE_TIME <= endTime:
-              #  print(ramp)  
+            ramp = profile[0]
+            startTime = profile[1]
+            endTime = profile[2]
+            finalTemp = profile[3]
+            if PROFILE_TIME >= startTime and PROFILE_TIME <= endTime:
+                print(ramp)  
          
     def getTemperatures(self):
         temp = sensor.readTempC() 
