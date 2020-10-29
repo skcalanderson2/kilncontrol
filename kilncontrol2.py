@@ -245,8 +245,10 @@ class Ui_MainWindow(object):
                 self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
          
     def getTemperatures(self):
+        global PROFILE_TIME
         temp = sensor.readTempC() 
         if self.radioButton_profile.isChecked() and not self.profileTempTimer.isActive():
+            self.updateProfileTemperature()
             self.profileTempTimer.start(60000)
             PROFILE_TIME = 0
         elif not self.radioButton_profile.isChecked() and self.profileTempTimer.isActive():
