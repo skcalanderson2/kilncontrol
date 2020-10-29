@@ -37,6 +37,7 @@ Temp_Profile = [[2.5,0,60,150],
                 [-2.5,781,840,600]]
 
 CURRENT_Temp_Profile_Number  = 0
+START_TEMP = 0
 PROFILE_TIME = 0
 
 class Ui_MainWindow(object):
@@ -219,11 +220,13 @@ class Ui_MainWindow(object):
 
     def setupProfile(self):
         global Temp_Profile
+        global START_TEMP
         temp_profile0 = Temp_Profile[0]
         temp_final_temp = temp_profile0[3]
         temp_starting_temp = sensor.readTempC()
         temp_profile0[0] = (temp_final_temp - temp_starting_temp)/60.0
         print(temp_profile0)
+        START_TEMP = temp_starting_temp
 
     def updateProfileTemperature(self):
         global PROFILE_TIME
@@ -234,7 +237,7 @@ class Ui_MainWindow(object):
             endTime = profile[2]
             finalTemp = profile[3]
             if startTime <= PROFILE_TIME <= endTime:
-                ramp_temp = PROFILE_TIME * ramp
+                ramp_temp = START_TEMP + PROFILE_TIME * ramp
                 if ramp_temp > finalTemp:
                     ramp_temp = finalTemp
                 print (ramp_temp)
