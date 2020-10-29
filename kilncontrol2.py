@@ -29,16 +29,16 @@ I = 1.0
 D = 0.001
 
 Temp_Profile = {}
-Temp_Profile[1] = [2.5,60,150]
-Temp_Profile[2] = [0.0,180,150]
-Temp_Profile[3] = [3.6,60,370]
-Temp_Profile[4] = [0.0,120,370]
-Temp_Profile[5] = [3.1,120,750]
-Temp_Profile[6] = [0.0,240,750]
-Temp_Profile[7] = [-2.5,60,600]
+Temp_Profile[1] = [2.5,0,60,150]
+Temp_Profile[2] = [0.0,61,240,150]
+Temp_Profile[3] = [3.6,241,300,370]
+Temp_Profile[4] = [0.0,301,420,370]
+Temp_Profile[5] = [3.1,421,540,750]
+Temp_Profile[6] = [0.0,541,780,750]
+Temp_Profile[7] = [-2.5,781,840,600]
 
 CURRENT_Temp_Profile_Number  = 0
-
+PROFILE_TIME = 0
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -182,6 +182,10 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        self.profileTempTimer = QtCore.QTimer()
+        self.profileTempTimer.timeout.connect(self.updateProfileTemperature)
+        #self.profileTempTimer.start(60000)
+ 
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.getTemperatures)
         self.tempTimer.start(1000)
@@ -211,9 +215,18 @@ class Ui_MainWindow(object):
         self.pid.SetPoint = self.targetTemp
         self.sBKilnTargetTemp.setValue(self.targetTemp)
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
-    
+
+    def updateProfileTemperature(self):
+	PROFILE_TIME = PROFILE_TIME + 1
+	logInfo(str(Temp_Profile[1]))
+         
     def getTemperatures(self):
-        temp = sensor.readTempC()
+        if self.radioButton_profile.isChecked() and !self.profileTempTimer.isActive():
+	   self.profileTempTimer.start(60000)
+	   PROFILE_TIME = 0
+	elif !self.radioButton_profile.isChecked() and self.profileTempTimer.isActive():
+	    self.profileTempTimer.stop()
+	temp = sensor.readTempC()
         if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
             self.pid.update(temp)
         if self.pid.output > 100:
@@ -259,6 +272,11 @@ class Ui_MainWindow(object):
         log.close()
         self.t = self.t + 1
 
+    def logInfo(self, info):
+	log = open(self.filename, "a")        
+        log.write("{0}\n".format(theTemp))
+        log.close()
+ 
     def showgetSetTempDialog(self, event):
 
         Dialog = QtWidgets.QDialog()
