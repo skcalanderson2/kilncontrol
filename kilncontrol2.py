@@ -267,16 +267,17 @@ class Ui_MainWindow(object):
         print("RadioButton Profile Status: " + str(self.radioButton_profile.isChecked()))
         if self.radioButton_2.isChecked() or self.radioButton_profile.isChecked():  # Check to see if we should be running kiln
             self.logData(temp)
-            print("PID_Status: " + str(self.pid_status))
+            #print("PID_Status: " + str(self.pid_status))
             if self.pid_status == 'off':
                 self.pid_status = 'on'
                 if self.pid_output > 0:
+                    print("Show On Coils")
                     self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
                 else:
                     self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
             # Update the duty cycle on the PWM from the PID function
             PID_GPIO.start(self.pid_output)
-            print("PID Output:" + str(self.pid_output))
+            #print("PID Output:" + str(self.pid_output))
             if math.isnan(temp):
                 print("Temp Sensor Output:" + sensor.readState())
 
