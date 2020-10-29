@@ -220,7 +220,7 @@ class Ui_MainWindow(object):
     def updateProfileTemperature(self):
         global PROFILE_TIME 
         PROFILE_TIME = PROFILE_TIME + 1
-        for (profile in Temp_Profile):
+        for profile in Temp_Profile:
             ramp = profile[0]
             startTime = profile[1]
             endTime = profile[2]
