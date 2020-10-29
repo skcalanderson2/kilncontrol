@@ -264,13 +264,13 @@ class Ui_MainWindow(object):
 
         #temp = 100.0
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
-        print("RadioButton Profile Status: " + str(self.radioButton_profile.isChecked()))
+        #print("RadioButton Profile Status: " + str(self.radioButton_profile.isChecked()))
         if self.radioButton_2.isChecked() or self.radioButton_profile.isChecked():  # Check to see if we should be running kiln
             self.logData(temp)
             #print("PID_Status: " + str(self.pid_status))
             if self.pid_status == 'off':
                 self.pid_status = 'on'
-                if self.pid_output > 0:
+                if self.pid_output > 0.0:
                     print("Show On Coils")
                     self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
                 else:
