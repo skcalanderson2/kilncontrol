@@ -241,7 +241,7 @@ class Ui_MainWindow(object):
                 if ramp_temp > finalTemp or ramp == 0.0:
                     ramp_temp = finalTemp
                 print (ramp_temp)
-                self.pid.SetPoint(ramp_temp)
+                self.pid.SetPoint = ramp_temp
                 self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
          
     def getTemperatures(self):
