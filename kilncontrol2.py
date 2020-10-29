@@ -220,7 +220,13 @@ class Ui_MainWindow(object):
     def updateProfileTemperature(self):
         global PROFILE_TIME 
         PROFILE_TIME = PROFILE_TIME + 1
-        self.logInfo(str(Temp_Profile[1]))
+        for (profile in Temp_Profile):
+            ramp = profile[0]
+            startTime = profile[1]
+            endTime = profile[2]
+            finalTemp = profile[3]
+            if PROFILE_TIME >= startTime and PROFILE_TIME <= endTime:
+                print(ramp)  
          
     def getTemperatures(self):
         temp = sensor.readTempC() 
