@@ -217,8 +217,8 @@ class Ui_MainWindow(object):
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
 
     def updateProfileTemperature(self):
-	PROFILE_TIME = PROFILE_TIME + 1
-	logInfo(str(Temp_Profile[1]))
+        PROFILE_TIME = PROFILE_TIME + 1
+        logInfo(str(Temp_Profile[1]))
          
     def getTemperatures(self):
         if self.radioButton_profile.isChecked() and !self.profileTempTimer.isActive():
