@@ -51,6 +51,7 @@ class Ui_MainWindow(object):
         self.pid.setSampleTime(1.0)
         self.pid_output = 0.0
         self.pid_status = 'off'
+        self.setupProfile()
 
         MainWindow.setObjectName("Kiln Control")
         MainWindow.resize(800, 600)
@@ -216,17 +217,27 @@ class Ui_MainWindow(object):
         self.sBKilnTargetTemp.setValue(self.targetTemp)
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
 
+    def setupProfile(self):
+        global Temp_Profile
+        temp_profile0 = Temp_Profile[0]
+        temp_final_temp = temp_profile0[3]
+        temp_starting_temp = sensor.readTempC()
+        temp_profile0[0] = (temp_final_temp - temp_starting_temp)/60.0
+        print(temp_profile0)
+
     def updateProfileTemperature(self):
-        global PROFILE_TIME 
+        global PROFILE_TIME
         PROFILE_TIME = PROFILE_TIME + 1
         for profile in Temp_Profile:
-            print(profile)
             ramp = profile[0]
             startTime = profile[1]
             endTime = profile[2]
             finalTemp = profile[3]
-            if PROFILE_TIME >= startTime and PROFILE_TIME <= endTime:
-                print(ramp)  
+            if startTime <= PROFILE_TIME <= endTime:
+                ramp_temp = PROFILE_TIME * ramp
+                if ramp_temp > finalTemp:
+                    ramp_temp = finalTemp
+                    print (ramp_temp)
          
     def getTemperatures(self):
         temp = sensor.readTempC() 
