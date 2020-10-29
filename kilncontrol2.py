@@ -42,7 +42,6 @@ PROFILE_TIME = 0
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        print(P) 
         self.targetTemp = 0.0
         self.t = 0
         logdatetime = strftime("%Y-%m-%d %H:%M:%S")
@@ -225,7 +224,7 @@ class Ui_MainWindow(object):
         temp_final_temp = temp_profile0[3]
         temp_starting_temp = sensor.readTempC()
         temp_profile0[0] = (temp_final_temp - temp_starting_temp)/60.0
-        print(temp_profile0)
+        print("Profile Temperature: " + str(temp_profile0))
         START_TEMP = temp_starting_temp
 
     def updateProfileTemperature(self):
