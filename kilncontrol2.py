@@ -224,7 +224,7 @@ class Ui_MainWindow(object):
         temp_final_temp = temp_profile0[3]
         temp_starting_temp = sensor.readTempC()
         temp_profile0[0] = (temp_final_temp - temp_starting_temp)/60.0
-        print("Profile Temperature: " + str(temp_profile0))
+        print("Profile Temperature: " + str(temp_starting_temp))
         START_TEMP = temp_starting_temp
 
     def updateProfileTemperature(self):
@@ -264,6 +264,7 @@ class Ui_MainWindow(object):
 
         #temp = 100.0
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
+        print("RadioButton Profile Status: " + str(self.radioButton_profile.isChecked()))
         if self.radioButton_2.isChecked() or self.radioButton_profile.isChecked():  # Check to see if we should be running kiln
             self.logData(temp)
             if self.pid_status == 'off':
@@ -274,9 +275,9 @@ class Ui_MainWindow(object):
                     self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
             # Update the duty cycle on the PWM from the PID function
             PID_GPIO.start(self.pid_output)
-            print(self.pid_output)
+            print("PID Output:" + self.pid_output)
             if math.isnan(temp):
-                print(sensor.readState())
+                print("Temp Sensor Output:" + sensor.readState())
 
             #  Manually turn on or off heating elements
 #            if temp < self.targetTemp or math.isnan(temp):
