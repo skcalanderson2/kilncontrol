@@ -218,7 +218,7 @@ class Ui_MainWindow(object):
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
 
     def updateProfileTemperature(self):
-        global PPROFILE_TIME 
+        global PROFILE_TIME 
         PROFILE_TIME = PROFILE_TIME + 1
         logInfo(str(Temp_Profile[1]))
          
