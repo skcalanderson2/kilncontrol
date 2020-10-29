@@ -221,10 +221,10 @@ class Ui_MainWindow(object):
         logInfo(str(Temp_Profile[1]))
          
     def getTemperatures(self):
-        if self.radioButton_profile.isChecked() and !self.profileTempTimer.isActive():
+        if self.radioButton_profile.isChecked() and not self.profileTempTimer.isActive():
 	   self.profileTempTimer.start(60000)
 	   PROFILE_TIME = 0
-	elif !self.radioButton_profile.isChecked() and self.profileTempTimer.isActive():
+	elif not self.radioButton_profile.isChecked() and self.profileTempTimer.isActive():
 	    self.profileTempTimer.stop()
 	temp = sensor.readTempC()
         if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
