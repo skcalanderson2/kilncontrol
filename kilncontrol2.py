@@ -237,7 +237,7 @@ class Ui_MainWindow(object):
                 ramp_temp = PROFILE_TIME * ramp
                 if ramp_temp > finalTemp:
                     ramp_temp = finalTemp
-                    print (ramp_temp)
+                print (ramp_temp)
          
     def getTemperatures(self):
         temp = sensor.readTempC() 
