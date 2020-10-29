@@ -238,9 +238,11 @@ class Ui_MainWindow(object):
             finalTemp = profile[3]
             if startTime <= PROFILE_TIME <= endTime:
                 ramp_temp = START_TEMP + PROFILE_TIME * ramp
-                if ramp_temp > finalTemp:
+                if ramp_temp > finalTemp or ramp == 0.0:
                     ramp_temp = finalTemp
                 print (ramp_temp)
+                self.pid.SetPoint(ramp_temp)
+                self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
          
     def getTemperatures(self):
         temp = sensor.readTempC() 
@@ -261,7 +263,7 @@ class Ui_MainWindow(object):
 
         #temp = 100.0
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
-        if self.radioButton_2.isChecked():  # Check to see if we should be running kiln
+        if self.radioButton_2.isChecked() or self.radioButton_profile.isChecked():  # Check to see if we should be running kiln
             self.logData(temp)
             if self.pid_status == 'off':
                 self.pid_status = 'on'
