@@ -277,7 +277,7 @@ class Ui_MainWindow(object):
 
     def logInfo(self, info):
         log = open(self.filename, "a")        
-        log.write("{0}\n".format(theTemp))
+        log.write("{0}\n".format(info))
         log.close()
  
     def showgetSetTempDialog(self, event):
