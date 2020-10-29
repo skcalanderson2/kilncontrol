@@ -42,6 +42,7 @@ PROFILE_TIME = 0
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        print(P) 
         self.targetTemp = 0.0
         self.t = 0
         logdatetime = strftime("%Y-%m-%d %H:%M:%S")
