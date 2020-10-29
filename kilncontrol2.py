@@ -221,6 +221,7 @@ class Ui_MainWindow(object):
         logInfo(str(Temp_Profile[1]))
          
     def getTemperatures(self):
+        temp = sensor.readTempC() 
         if self.radioButton_profile.isChecked() and not self.profileTempTimer.isActive():
             self.profileTempTimer.start(60000)
             PROFILE_TIME = 0
