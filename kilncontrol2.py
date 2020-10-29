@@ -88,7 +88,7 @@ class Ui_MainWindow(object):
 #        self.pBSetKilnTargetTemp.setGeometry(QtCore.QRect(20, 320, 221, 51))
 #        self.pBSetKilnTargetTemp.setObjectName("pBSetKilnTargetTemp")
 #        self.pBSetKilnTargetTemp.clicked.connect(self.setNewTargetTemp)
-		
+
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(440, 290, 200, 104))
         font = QtGui.QFont()
@@ -204,12 +204,12 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Current Target Temperature"))
         self.sBKilnTargetTemp.setSuffix(_translate("MainWindow", "°C"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
-	
+
     def targetTempChange(self):
         self.targetTemp = self.sBKilnTargetTemp.value()
         self.pid.SetPoint = self.targetTemp
         self.setTempText.setText(str(self.targetTemp)+ '\N{DEGREE SIGN}C')
-	
+
     def setNewTargetTemp(self):
         self.targetTemp = int(self.setTempText.toPlainText())
         self.pid.SetPoint = self.targetTemp
@@ -222,11 +222,11 @@ class Ui_MainWindow(object):
          
     def getTemperatures(self):
         if self.radioButton_profile.isChecked() and not self.profileTempTimer.isActive():
-	   self.profileTempTimer.start(60000)
-	   PROFILE_TIME = 0
-	elif not self.radioButton_profile.isChecked() and self.profileTempTimer.isActive():
-	    self.profileTempTimer.stop()
-	temp = sensor.readTempC()
+            self.profileTempTimer.start(60000)
+            PROFILE_TIME = 0
+        elif not self.radioButton_profile.isChecked() and self.profileTempTimer.isActive():
+            self.profileTempTimer.stop()
+            temp = sensor.readTempC()
         if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
             self.pid.update(temp)
         if self.pid.output > 100:
@@ -273,7 +273,7 @@ class Ui_MainWindow(object):
         self.t = self.t + 1
 
     def logInfo(self, info):
-	log = open(self.filename, "a")        
+        log = open(self.filename, "a")        
         log.write("{0}\n".format(theTemp))
         log.close()
  
