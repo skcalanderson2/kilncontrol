@@ -267,8 +267,10 @@ class Ui_MainWindow(object):
         #print("RadioButton Profile Status: " + str(self.radioButton_profile.isChecked()))
         if self.radioButton_2.isChecked() or self.radioButton_profile.isChecked():  # Check to see if we should be running kiln
             self.logData(temp)
-            #print("PID_Status: " + str(self.pid_status))
+            print("PID_Status: " + str(self.pid_status))
             if self.pid_status == 'off':
+                print("PID_Status: " + str(self.pid_status))
+                print("PID Output:" + str(self.pid.output))
                 self.pid_status = 'on'
                 if self.pid.output > 0.0:
                     print("Show On Coils")
