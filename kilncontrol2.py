@@ -235,16 +235,21 @@ class Ui_MainWindow(object):
             startTime = profile[1]
             endTime = profile[2]
             finalTemp = profile[3]
-            if startTime <= PROFILE_TIME <= endTime:
-                ramp_temp = START_TEMP + PROFILE_TIME * ramp
-                if ramp_temp > finalTemp or ramp == 0.0:
-                    ramp_temp = finalTemp
+            if endTime > PROFILE_TIME:
+                if startTime <= PROFILE_TIME <= endTime:
+                    ramp_temp = START_TEMP + PROFILE_TIME * ramp
+                    if ramp_temp > finalTemp or ramp == 0.0:
+                        ramp_temp = finalTemp
+                    self.targetTemp = ramp_temp
+                    self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
+                    print (ramp_temp)
+                    self.pid.SetPoint = ramp_temp
+                    self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
+            else:
                 self.targetTemp = ramp_temp
-                self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
-                print (ramp_temp)
                 self.pid.SetPoint = ramp_temp
                 self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
-         
+
     def getTemperatures(self):
         global PROFILE_TIME
         temp = sensor.readTempC() 
