@@ -284,7 +284,7 @@ class Ui_MainWindow(object):
             PID_GPIO.start(self.pid_output)
             #print("PID Output:" + str(self.pid_output))
             if math.isnan(temp):
-                print("Temp Sensor Output:" + sensor.readState())
+                print("Temp Sensor Output:" + str(sensor.readState()))
 
             #  Manually turn on or off heating elements
 #            if temp < self.targetTemp or math.isnan(temp):
