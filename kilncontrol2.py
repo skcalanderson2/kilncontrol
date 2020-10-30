@@ -239,6 +239,8 @@ class Ui_MainWindow(object):
                 ramp_temp = START_TEMP + PROFILE_TIME * ramp
                 if ramp_temp > finalTemp or ramp == 0.0:
                     ramp_temp = finalTemp
+                self.targetTemp = ramp_temp
+                self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
                 print (ramp_temp)
                 self.pid.SetPoint = ramp_temp
                 self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
