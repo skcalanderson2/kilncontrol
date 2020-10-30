@@ -270,7 +270,7 @@ class Ui_MainWindow(object):
             #print("PID_Status: " + str(self.pid_status))
             if self.pid_status == 'off':
                 self.pid_status = 'on'
-                if self.pid_output > 0.0:
+                if self.pid.output > 0.0:
                     print("Show On Coils")
                     self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
                 else:
