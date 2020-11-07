@@ -235,6 +235,7 @@ class Ui_MainWindow(object):
     def updateProfileTemperature(self):
         global PROFILE_TIME
         PROFILE_TIME = PROFILE_TIME + 1
+        print("PROFILE_TIME:" + PROFILE_TIME)
         for profile in Temp_Profile:
             ramp = profile[0]
             startTime = profile[1]
@@ -247,7 +248,7 @@ class Ui_MainWindow(object):
                     ramp_temp = finalTemp
                 self.targetTemp = ramp_temp
                 self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
-                print (ramp_temp)
+                print ("Ramp_temp:" + ramp_temp)
                 self.pid.SetPoint = ramp_temp
                 self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
             else:
@@ -279,14 +280,14 @@ class Ui_MainWindow(object):
         #print("RadioButton Profile Status: " + str(self.radioButton_profile.isChecked()))
         if self.radioButton_2.isChecked() or self.radioButton_profile.isChecked():  # Check to see if we should be running kiln
             self.logData(temp)
-            print("PID_Status: " + str(self.pid_status))
-            print("PID Output:" + str(self.pid.output))
+            #print("PID_Status: " + str(self.pid_status))
+            #print("PID Output:" + str(self.pid.output))
             if self.pid_status == 'off':
-                print("PID_Status: " + str(self.pid_status))
-                print("PID Output:" + str(self.pid.output))
+                #print("PID_Status: " + str(self.pid_status))
+                #print("PID Output:" + str(self.pid.output))
                 self.pid_status = 'on'
                 if self.pid.output > 0.0:
-                    print("Show On Coils")
+                    #print("Show On Coils")
                     self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
                 else:
                     self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
