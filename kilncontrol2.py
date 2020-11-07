@@ -74,8 +74,11 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
+
         self.current_temp = QtWidgets.QLabel(self.centralwidget)
         self.current_temp.setGeometry(QtCore.QRect(40, 80, 271, 91))
+
+
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(48)
@@ -160,6 +163,7 @@ class Ui_MainWindow(object):
         self.sBKilnTargetTemp.setMaximum(1300)
         self.sBKilnTargetTemp.setProperty("value", 0)
         self.sBKilnTargetTemp.setObjectName("sBKilnTargetTemp")
+
         self.sBKilnTargetTemp.valueChanged[int].connect(self.targetTempChange)
         
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
@@ -167,6 +171,7 @@ class Ui_MainWindow(object):
         self.label_3.setText("")
         self.label_3.setScaledContents(True)
         self.label_3.setObjectName("label_3")
+
         self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
 
         font = QtGui.QFont()
@@ -235,20 +240,20 @@ class Ui_MainWindow(object):
             startTime = profile[1]
             endTime = profile[2]
             finalTemp = profile[3]
-            if endTime > PROFILE_TIME:
-                if startTime <= PROFILE_TIME <= endTime:
-                    ramp_temp = START_TEMP + PROFILE_TIME * ramp
-                    if ramp_temp > finalTemp or ramp == 0.0:
-                        ramp_temp = finalTemp
-                    self.targetTemp = ramp_temp
-                    self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
-                    print (ramp_temp)
-                    self.pid.SetPoint = ramp_temp
-                    self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
-            else:
+#            if endTime > PROFILE_TIME:
+            if startTime <= PROFILE_TIME <= endTime:
+                ramp_temp = START_TEMP + PROFILE_TIME * ramp
+                if ramp_temp > finalTemp or ramp == 0.0:
+                    ramp_temp = finalTemp
                 self.targetTemp = ramp_temp
+                self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
+                print (ramp_temp)
                 self.pid.SetPoint = ramp_temp
                 self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
+            else:
+                self.targetTemp = finalTemp
+                self.pid.SetPoint = finalTemp
+                self.setTempText.setText(str(finalTemp) + '\N{DEGREE SIGN}C')
 
     def getTemperatures(self):
         global PROFILE_TIME
