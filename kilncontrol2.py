@@ -239,19 +239,27 @@ class Ui_MainWindow(object):
         PROFILE_TIME = PROFILE_TIME + 1
         print("PROFILE_TIME:" + str(PROFILE_TIME))
 
-        for profile in Temp_Profile:
-            startTime = profile[1]
-            endTime = profile[2]
-            finalTemp = profile[3]
-            ramp = profile[0]
-            if startTime <= PROFILE_TIME <= endTime:
-                #OK we got the current profile
-                break
-            elif endTime < PROFILE_TIME:
-                #So we are at the last profile so we just need to hold the temp
-                self.targetTemp = finalTemp
-                self.pid.SetPoint = finalTemp
-                self.setTempText.setText(str(finalTemp) + '\N{DEGREE SIGN}C')
+        current_profile = filter(lambda profile:
+                        profile[1] <= PROFILE_TIME <= profile[2], Temp_Profile)
+
+        startTime = current_profile[1]
+        endTime = current_profile[2]
+        finalTemp = current_profile[3]
+        ramp = current_profile[0]
+
+        # for profile in Temp_Profile:
+        #     startTime = profile[1]
+        #     endTime = profile[2]
+        #     finalTemp = profile[3]
+        #     ramp = profile[0]
+        #     if startTime <= PROFILE_TIME <= endTime:
+        #         #OK we got the current profile
+        #         break
+        #     elif endTime < PROFILE_TIME:
+        #         #So we are at the last profile so we just need to hold the temp
+        #         self.targetTemp = finalTemp
+        #         self.pid.SetPoint = finalTemp
+        #         self.setTempText.setText(str(finalTemp) + '\N{DEGREE SIGN}C')
 
         ramp_temp = START_TEMP + PROFILE_TIME * ramp
         if ramp_temp > finalTemp or ramp == 0.0:
