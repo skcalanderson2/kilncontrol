@@ -238,25 +238,30 @@ class Ui_MainWindow(object):
         global PROFILE_TIME
         PROFILE_TIME = PROFILE_TIME + 1
         print("PROFILE_TIME:" + str(PROFILE_TIME))
+
         for profile in Temp_Profile:
-            ramp = profile[0]
             startTime = profile[1]
             endTime = profile[2]
             finalTemp = profile[3]
-#            if endTime > PROFILE_TIME:
+            ramp = profile[0]
             if startTime <= PROFILE_TIME <= endTime:
-                ramp_temp = START_TEMP + PROFILE_TIME * ramp
-                if ramp_temp > finalTemp or ramp == 0.0:
-                    ramp_temp = finalTemp
-                self.targetTemp = ramp_temp
-                self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
-                print ("Ramp_temp:" + str(ramp_temp))
-                self.pid.SetPoint = ramp_temp
-                self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
-            else:
+                #OK we got the current profile
+                break
+            elif endTime < PROFILE_TIME:
+                #So we are at the last profile so we just need to hold the temp
                 self.targetTemp = finalTemp
                 self.pid.SetPoint = finalTemp
                 self.setTempText.setText(str(finalTemp) + '\N{DEGREE SIGN}C')
+
+        ramp_temp = START_TEMP + PROFILE_TIME * ramp
+        if ramp_temp > finalTemp or ramp == 0.0:
+            ramp_temp = finalTemp
+
+        self.targetTemp = ramp_temp
+        self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
+        print ("Ramp_temp:" + str(ramp_temp))
+        self.pid.SetPoint = ramp_temp
+        self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
 
     def getTemperatures(self):
         global PROFILE_TIME
