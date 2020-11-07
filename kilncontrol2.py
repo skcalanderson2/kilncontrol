@@ -235,7 +235,7 @@ class Ui_MainWindow(object):
     def updateProfileTemperature(self):
         global PROFILE_TIME
         PROFILE_TIME = PROFILE_TIME + 1
-        print("PROFILE_TIME:" + PROFILE_TIME)
+        print("PROFILE_TIME:" + str(PROFILE_TIME))
         for profile in Temp_Profile:
             ramp = profile[0]
             startTime = profile[1]
@@ -248,7 +248,7 @@ class Ui_MainWindow(object):
                     ramp_temp = finalTemp
                 self.targetTemp = ramp_temp
                 self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
-                print ("Ramp_temp:" + ramp_temp)
+                print ("Ramp_temp:" + str(ramp_temp))
                 self.pid.SetPoint = ramp_temp
                 self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
             else:
