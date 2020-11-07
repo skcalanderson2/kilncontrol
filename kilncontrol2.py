@@ -212,11 +212,13 @@ class Ui_MainWindow(object):
         self.exitButton.setText(_translate("MainWindow", "Exit"))
 
     def targetTempChange(self):
+        print("targetTempChange Called")
         self.targetTemp = self.sBKilnTargetTemp.value()
         self.pid.SetPoint = self.targetTemp
         self.setTempText.setText(str(self.targetTemp)+ '\N{DEGREE SIGN}C')
 
     def setNewTargetTemp(self):
+        print("setNewTargetTemp Called")
         self.targetTemp = int(self.setTempText.toPlainText())
         self.pid.SetPoint = self.targetTemp
         self.sBKilnTargetTemp.setValue(self.targetTemp)
