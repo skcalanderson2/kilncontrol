@@ -278,6 +278,7 @@ class Ui_MainWindow(object):
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
 
         #temp = 100.0
+        print("Temperature in getTemperature:" + str(temp))
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
         #print("RadioButton Profile Status: " + str(self.radioButton_profile.isChecked()))
         if self.radioButton_2.isChecked() or self.radioButton_profile.isChecked():  # Check to see if we should be running kiln
