@@ -233,6 +233,8 @@ class Ui_MainWindow(object):
         #self.pid.SetPoint = self.targetTemp
         self.setTempText.setText(str(self.targetTemp)+ '\N{DEGREE SIGN}C')
         self.radioButton_2.setEnabled(True)
+        if self.pid_status == 'on':
+            self.pid.SetPoint = self.targetTemp
 
     def setNewTargetTemp(self):
         print("setNewTargetTemp Called")
