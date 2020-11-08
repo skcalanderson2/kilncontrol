@@ -213,7 +213,7 @@ class Ui_MainWindow(object):
 
         self.profileTempTimer = QtCore.QTimer()
         self.profileTempTimer.timeout.connect(self.updateProfileTime)
-        #self.profileTempTimer.start(60000)
+        self.profileTempTimer.start(60000)
 
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.updateState)
@@ -271,7 +271,8 @@ class Ui_MainWindow(object):
         PROFILE_TIME = 0
         CURRENT_RAMP = temp_profile0[1]
         CURRENT_SET_POINT = temp_final_temp
-        self.profileTempTimer.start(60000)
+        #self.profileTempTimer.start(60000)
+        print(self.profileTempTimer.isActive())
 
     def btnstate(self, b):
         global CURRENT_KILN_STATE
@@ -319,12 +320,12 @@ class Ui_MainWindow(object):
         global CURRENT_PROFILE_RAMP_TEMP
         global CURRENT_RAMP
         global CURRENT_SET_POINT
+        if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
+            PROFILE_TIME = PROFILE_TIME + 1
+            if CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT:
+                CURRENT_PROFILE_RAMP_TEMP = CURRENT_PROFILE_RAMP_TEMP + CURRENT_RAMP
 
-        PROFILE_TIME = PROFILE_TIME + 1
-        if CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT:
-            CURRENT_PROFILE_RAMP_TEMP = CURRENT_PROFILE_RAMP_TEMP + CURRENT_RAMP
-
-        self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
+            self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
 
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
