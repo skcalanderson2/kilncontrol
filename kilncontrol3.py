@@ -360,6 +360,7 @@ class Ui_MainWindow(object):
             self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
             self.setTempText.setText(
                 '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
+            print('current profile ramp temp: ' + CURRENT_PROFILE_RAMP_TEMP)
 
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
