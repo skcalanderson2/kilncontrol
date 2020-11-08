@@ -69,7 +69,6 @@ class Ui_MainWindow(object):
         self.pid.setSampleTime(1.0)
         self.pid_output = 0.0
         self.pid_status = 'off'
-        self.setupProfile()
 
         MainWindow.setObjectName("Kiln Control")
         MainWindow.resize(800, 600)
@@ -230,6 +229,8 @@ class Ui_MainWindow(object):
         self.tempTimer.start(1000)
         self.retranslateUi(MainWindow)
         # QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.setupProfile()
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -281,7 +282,7 @@ class Ui_MainWindow(object):
         PROFILE_TIME = 0
         CURRENT_RAMP = temp_profile0[1]
         CURRENT_SET_POINT = temp_final_temp
-        #self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
+        self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
         self.statelabel.setText(str(CURRENT_KILN_STATE))
 
         # self.profileTempTimer.start(60000)
