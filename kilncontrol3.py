@@ -173,6 +173,16 @@ class Ui_MainWindow(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
 
+        self.statelabel = QtWidgets.QLabel(self.centralwidget)
+        self.statelabel.setGeometry(QtCore.QRect(680, 350, 40, 61))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.statelabel.setFont(font)
+        self.statelabel.setObjectName("statelabel")
+
         self.sBKilnTargetTemp = QtWidgets.QSpinBox(self.centralwidget)
         self.sBKilnTargetTemp.setGeometry(QtCore.QRect(250, 350, 171, 61))
         font = QtGui.QFont()
@@ -271,6 +281,9 @@ class Ui_MainWindow(object):
         PROFILE_TIME = 0
         CURRENT_RAMP = temp_profile0[1]
         CURRENT_SET_POINT = temp_final_temp
+        self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
+        self.statelabel.setText(str(CURRENT_KILN_STATE))
+
         # self.profileTempTimer.start(60000)
         # print(self.profileTempTimer.isActive())
 
@@ -295,13 +308,15 @@ class Ui_MainWindow(object):
                 if not math.isnan(self.sBKilnTargetTemp.value()):
                     self.targetTemp = self.sBKilnTargetTemp.value()
                     self.pid.SetPoint = self.targetTemp
+                    self.statelabel.setText("")
         if b.text() == "Kiln  Off":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
                     LAST_KILN_STATE = CURRENT_KILN_STATE
                     CURRENT_KILN_STATE = KilnState.IDLE
                     self.pid_status = 'off'
-                    self.profileTempTimer.stop()
+                    self.statelabel.setText("")
+                    # self.profileTempTimer.stop()
 
     def updatePIDTemp(self, temp):
         #print("UpdatePIDTemp Called")
@@ -327,6 +342,7 @@ class Ui_MainWindow(object):
                 CURRENT_PROFILE_RAMP_TEMP = CURRENT_PROFILE_RAMP_TEMP + CURRENT_RAMP
 
             self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
+            self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
 
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
