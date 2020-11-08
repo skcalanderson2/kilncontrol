@@ -302,6 +302,11 @@ class Ui_MainWindow(object):
         pass
 
     def updateState(self):
+        if self.pid.output > 0.0 and self.pid_status == 'on':
+            self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
+        else:
+            self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
+
         print("Current State:" + str(CURRENT_KILN_STATE))
         temp = sensor.readTempC()
         self.logData(temp)
