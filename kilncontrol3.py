@@ -343,7 +343,7 @@ class Ui_MainWindow(object):
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
         print("Pid_output" + str(self.pid.output))
 
-        self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid.output, width=6, prec=2))
+        self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 
 
     def updateProfileTime(self):
@@ -360,7 +360,7 @@ class Ui_MainWindow(object):
             self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
             self.setTempText.setText(
                 '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
-            print('current profile ramp temp: ' + CURRENT_PROFILE_RAMP_TEMP)
+            print('current profile ramp temp: ' + str(CURRENT_PROFILE_RAMP_TEMP))
 
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
