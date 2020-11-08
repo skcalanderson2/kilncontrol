@@ -15,6 +15,7 @@ import math
 from getSetTempDialog import Ui_Dialog
 import PID
 from enum import Enum
+import pyqtgraph as pg
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.OUT)
@@ -23,32 +24,39 @@ PID_GPIO = GPIO.PWM(16, .2)
 
 SPI_PORT = 0
 SPI_DEVICE = 0
-sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT,SPI_DEVICE))
+sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 P = 1.0
 I = 1.0
 D = 0.001
 
-Temp_Profile = [[1, 2.5,0,60,150],
-                [2, 0.0,61,240,150],
-                [3, 3.6,241,300,370],
-                [4, 0.0,301,420,370],
-                [5, 3.1,421,540,750],
-                [6, 0.0,541,780,750],
-                [7, -2.5,781,840,600]]
+Temp_Profile = [[1, 2.5, 0, 60, 150],
+                [2, 0.0, 61, 240, 150],
+                [3, 3.6, 241, 300, 370],
+                [4, 0.0, 301, 420, 370],
+                [5, 3.1, 421, 540, 750],
+                [6, 0.0, 541, 780, 750],
+                [7, -2.5, 781, 840, 600]]
+
 
 class KilnState(Enum):
     IDLE = 1
     MANUAL_HEATING = 2
     PROFILE_HEATING = 3
 
+
 CURRENT_KILN_STATE = KilnState.IDLE
 LAST_KILN_STATE = KilnState.IDLE
 
-CURRENT_Temp_Profile_Number  = 1
+CURRENT_Temp_Profile_Number = 1
 START_TEMP = 0
 PROFILE_TIME = 0
+CURRENT_PROFILE_RAMP_TEMP = 0
+CURRENT_RAMP = 0.0
+CURRENT_SET_POINT = 0
+
 PID_GPIO.stop()
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -96,10 +104,10 @@ class Ui_MainWindow(object):
         self.current_temp.setText("")
         self.current_temp.setObjectName("current_temp")
 
-#        self.pBSetKilnTargetTemp = QtWidgets.QPushButton(self.centralwidget)
-#        self.pBSetKilnTargetTemp.setGeometry(QtCore.QRect(20, 320, 221, 51))
-#        self.pBSetKilnTargetTemp.setObjectName("pBSetKilnTargetTemp")
-#        self.pBSetKilnTargetTemp.clicked.connect(self.setNewTargetTemp)
+        #        self.pBSetKilnTargetTemp = QtWidgets.QPushButton(self.centralwidget)
+        #        self.pBSetKilnTargetTemp.setGeometry(QtCore.QRect(20, 320, 221, 51))
+        #        self.pBSetKilnTargetTemp.setObjectName("pBSetKilnTargetTemp")
+        #        self.pBSetKilnTargetTemp.clicked.connect(self.setNewTargetTemp)
 
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(440, 290, 200, 104))
@@ -115,7 +123,7 @@ class Ui_MainWindow(object):
         font.setPointSize(18)
         self.radioButton_profile.setFont(font)
         self.radioButton_profile.setObjectName("radioButton_profile")
-        #self.sBKilnTargetTemp.valueChanged[int].connect(self.targetTempChange)
+        # self.sBKilnTargetTemp.valueChanged[int].connect(self.targetTempChange)
         self.radioButton_profile.toggled.connect(lambda: self.btnstate(self.radioButton_profile))
         self.radioButton_profile.setEnabled(False)
 
@@ -181,7 +189,7 @@ class Ui_MainWindow(object):
         self.sBKilnTargetTemp.valueChanged[int].connect(self.targetTempChange)
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
-        #self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
+        # self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
         self.element_image.setGeometry(QtCore.QRect(70, 350, 100, 53))
         self.element_image.setText("")
         self.element_image.setScaledContents(True)
@@ -194,7 +202,7 @@ class Ui_MainWindow(object):
         font.setPointSize(8)
         self.exitButton = QtWidgets.QPushButton(self.centralwidget)
         self.exitButton.setFont(font)
-        self.exitButton.setGeometry(QtCore.QRect(690,350,81,31))
+        self.exitButton.setGeometry(QtCore.QRect(690, 350, 81, 31))
         self.exitButton.setObjectName("exitButton")
         self.exitButton.clicked.connect(MainWindow.close)
 
@@ -203,21 +211,21 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        # self.profileTempTimer = QtCore.QTimer()
-        # self.profileTempTimer.timeout.connect(self.updateProfileTemperature)
-        # #self.profileTempTimer.start(60000)
- 
+        self.profileTempTimer = QtCore.QTimer()
+        self.profileTempTimer.timeout.connect(self.updateProfileTime)
+        #self.profileTempTimer.start(60000)
+
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.updateState)
         self.tempTimer.start(1000)
         self.retranslateUi(MainWindow)
-                # QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        # QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Current Temperature"))
-#        self.pBSetKilnTargetTemp.setText(_translate("MainWindow", "Set Kiln Target Temperature"))
+        #        self.pBSetKilnTargetTemp.setText(_translate("MainWindow", "Set Kiln Target Temperature"))
         self.groupBox.setTitle(_translate("MainWindow", "Kiln Control"))
         self.radioButton_profile.setText(_translate("MainWindow", "Kiln Profile On"))
         self.radioButton_2.setText(_translate("MainWindow", "Kiln Manual On"))
@@ -229,8 +237,8 @@ class Ui_MainWindow(object):
     def targetTempChange(self):
         print("targetTempChange Called")
         self.targetTemp = self.sBKilnTargetTemp.value()
-        #self.pid.SetPoint = self.targetTemp
-        self.setTempText.setText(str(self.targetTemp)+ '\N{DEGREE SIGN}C')
+        # self.pid.SetPoint = self.targetTemp
+        self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
         self.radioButton_2.setEnabled(True)
         if self.pid_status == 'on':
             self.pid.SetPoint = self.targetTemp
@@ -245,12 +253,25 @@ class Ui_MainWindow(object):
     def setupProfile(self):
         global Temp_Profile
         global START_TEMP
-        temp_profile0 = Temp_Profile[1]
+        global CURRENT_Temp_Profile_Number
+        global CURRENT_PROFILE_RAMP_TEMP
+        global PROFILE_TIME
+        global CURRENT_SET_POINT
+        global CURRENT_RAMP
+
+        #once I get spinner widget to set profile point the will will update the current temp profile number
+
+        temp_profile0 = Temp_Profile[0]
         temp_final_temp = temp_profile0[4]
         temp_starting_temp = sensor.readTempC()
-        temp_profile0[1] = (temp_final_temp - temp_starting_temp)/60.0
+        temp_profile0[1] = (temp_final_temp - temp_starting_temp) / 60.0
         print("Profile Temperature: " + str(temp_starting_temp))
         START_TEMP = temp_starting_temp
+        CURRENT_PROFILE_RAMP_TEMP = START_TEMP
+        PROFILE_TIME = 0
+        CURRENT_RAMP = temp_profile0[1]
+        CURRENT_SET_POINT = temp_final_temp
+        self.profileTempTimer.start(60000)
 
     def btnstate(self, b):
         global CURRENT_KILN_STATE
@@ -262,13 +283,14 @@ class Ui_MainWindow(object):
                     LAST_KILN_STATE = CURRENT_KILN_STATE
                 CURRENT_KILN_STATE = KilnState.PROFILE_HEATING
                 self.setupProfile()
-#                   self.pid_status = 'on'
+                self.pid_status = 'on'
         if b.text() == "Kiln Manual On":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
                     LAST_KILN_STATE = CURRENT_KILN_STATE
                 CURRENT_KILN_STATE = KilnState.MANUAL_HEATING
                 self.pid_status = 'on'
+                self.profileTempTimer.stop()
                 if not math.isnan(self.sBKilnTargetTemp.value()):
                     self.targetTemp = self.sBKilnTargetTemp.value()
                     self.pid.SetPoint = self.targetTemp
@@ -278,6 +300,7 @@ class Ui_MainWindow(object):
                     LAST_KILN_STATE = CURRENT_KILN_STATE
                     CURRENT_KILN_STATE = KilnState.IDLE
                     self.pid_status = 'off'
+                    self.profileTempTimer.stop()
 
     def updatePIDTemp(self, temp):
         print("UpdatePIDTemp Called")
@@ -291,6 +314,18 @@ class Ui_MainWindow(object):
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
         print("Pid_output" + str(self.pid.output))
 
+    def updateProfileTime(self):
+        global PROFILE_TIME
+        global CURRENT_PROFILE_RAMP_TEMP
+        global CURRENT_RAMP
+        global CURRENT_SET_POINT
+
+        PROFILE_TIME = PROFILE_TIME + 1
+        if CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT:
+            CURRENT_PROFILE_RAMP_TEMP = CURRENT_PROFILE_RAMP_TEMP + CURRENT_RAMP
+
+        self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
+
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
 
@@ -298,7 +333,22 @@ class Ui_MainWindow(object):
         self.updatePIDTemp(current_temperature)
 
     def updateProfileHeatingState(self, current_temperature):
-        pass
+        global CURRENT_Temp_Profile_Number
+        global CURRENT_PROFILE_RAMP_TEMP
+        global CURRENT_RAMP
+        global CURRENT_SET_POINT
+
+        # check to see if we need to switch profile steps because profile time moved to next step
+        profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
+        if PROFILE_TIME > profilePoint[3] and CURRENT_Temp_Profile_Number < 7:
+            CURRENT_Temp_Profile_Number = CURRENT_Temp_Profile_Number + 1
+            profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
+            ramp = profilePoint[1]
+            setPointTemp = profilePoint[4]
+            CURRENT_RAMP = ramp
+            self.pid.SetPoint = setPointTemp
+
+        self.updatePIDTemp(current_temperature)
 
     def updateState(self):
         if self.pid.output > 0.0 and self.pid_status == 'on':
@@ -306,7 +356,6 @@ class Ui_MainWindow(object):
         else:
             self.element_image.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
 
-        print("Current State:" + str(CURRENT_KILN_STATE))
         temp = sensor.readTempC()
         self.logData(temp)
         self.updateCurrentTemperatureText(temp)
@@ -349,16 +398,16 @@ class Ui_MainWindow(object):
     #     self.setTempText.setText(str(ramp_temp) + '\N{DEGREE SIGN}C')
 
     def logData(self, theTemp):
-        log = open(self.filename, "a")        
+        log = open(self.filename, "a")
         log.write("{0}, {1}\n".format(str(self.t), str(theTemp)))
         log.close()
         self.t = self.t + 1
 
     def logInfo(self, info):
-        log = open(self.filename, "a")        
+        log = open(self.filename, "a")
         log.write("{0}\n".format(info))
         log.close()
- 
+
     def showgetSetTempDialog(self, event):
 
         Dialog = QtWidgets.QDialog()
@@ -372,9 +421,9 @@ class Ui_MainWindow(object):
             self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
 
 
-        
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     app.setOverrideCursor(QtCore.Qt.BlankCursor)  # Hides the cursor
     MainWindow = QtWidgets.QMainWindow()
@@ -385,4 +434,3 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
     PID_GPIO.stop()
     GPIO.cleanup()
-
