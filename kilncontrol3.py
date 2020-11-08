@@ -125,7 +125,7 @@ class Ui_MainWindow(object):
         self.radioButton_profile.setObjectName("radioButton_profile")
         # self.sBKilnTargetTemp.valueChanged[int].connect(self.targetTempChange)
         self.radioButton_profile.toggled.connect(lambda: self.btnstate(self.radioButton_profile))
-        self.radioButton_profile.setEnabled(False)
+        # self.radioButton_profile.setEnabled(False)
 
         self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox)
         self.radioButton_2.setGeometry(QtCore.QRect(10, 55, 200, 24))
