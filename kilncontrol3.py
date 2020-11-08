@@ -253,7 +253,7 @@ class Ui_MainWindow(object):
     def btnstate(self, b):
         global CURRENT_KILN_STATE
         global LAST_KILN_STATE
-
+        print("btnstate called")
         if b.text() == "Kiln Profile On":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
