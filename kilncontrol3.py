@@ -15,8 +15,8 @@ import math
 from getSetTempDialog import Ui_Dialog
 import PID
 from enum import Enum
-import numpy
-import pyqtgraph as pg
+# import numpy
+# import pyqtgraph as pg
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.OUT)
