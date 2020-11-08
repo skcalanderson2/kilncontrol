@@ -354,5 +354,6 @@ if __name__ == "__main__":
     # MainWindow.showFullScreen()
     MainWindow.show()
     sys.exit(app.exec_())
+    PID_GPIO.stop()
     GPIO.cleanup()
 
