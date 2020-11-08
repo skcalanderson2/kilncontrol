@@ -42,8 +42,8 @@ class KilnState(Enum):
     MANUAL_HEATING = 2
     PROFILE_HEATING = 3
 
-CURRENT_KILN_STATE: KilnState = KilnState.IDLE
-LAST_KILN_STATE: KilnState = KilnState.IDLE
+CURRENT_KILN_STATE = KilnState.IDLE
+LAST_KILN_STATE = KilnState.IDLE
 
 CURRENT_Temp_Profile_Number  = 1
 START_TEMP = 0
