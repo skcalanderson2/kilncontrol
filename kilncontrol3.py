@@ -278,6 +278,7 @@ class Ui_MainWindow(object):
                     self.pid_status = 'off'
 
     def updatePIDTemp(self, temp):
+        print("UpdatePIDTemp Called")
         if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
             self.pid.update(temp)
         if self.pid.output > 100:
@@ -286,7 +287,7 @@ class Ui_MainWindow(object):
             self.pid_output = 0
         else:
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
-
+        print("Pid_output" + str(self.pid.output))
 
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
@@ -294,11 +295,11 @@ class Ui_MainWindow(object):
     def updateManualHeatingState(self, current_temperature):
         self.updatePIDTemp(current_temperature)
 
-
     def updateProfileHeatingState(self, current_temperature):
         pass
 
     def updateState(self):
+        print("Current State:" + str(CURRENT_KILN_STATE))
         temp = sensor.readTempC()
         self.logData(temp)
         self.updateCurrentTemperatureText(temp)
