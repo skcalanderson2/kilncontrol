@@ -203,9 +203,9 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.profileTempTimer = QtCore.QTimer()
-        self.profileTempTimer.timeout.connect(self.updateProfileTemperature)
-        #self.profileTempTimer.start(60000)
+        # self.profileTempTimer = QtCore.QTimer()
+        # self.profileTempTimer.timeout.connect(self.updateProfileTemperature)
+        # #self.profileTempTimer.start(60000)
  
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.updateState())
