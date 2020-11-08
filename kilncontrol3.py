@@ -173,7 +173,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
 
         self.statelabel = QtWidgets.QLabel(self.centralwidget)
-        self.statelabel.setGeometry(QtCore.QRect(680, 350, 40, 61))
+        self.statelabel.setGeometry(QtCore.QRect(640, 290, 80, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(12)
@@ -282,8 +282,7 @@ class Ui_MainWindow(object):
         PROFILE_TIME = 0
         CURRENT_RAMP = temp_profile0[1]
         CURRENT_SET_POINT = temp_final_temp
-        self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
-        self.statelabel.setText(str(CURRENT_KILN_STATE))
+        self.setTempText.setText('{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
 
         # self.profileTempTimer.start(60000)
         # print(self.profileTempTimer.isActive())
@@ -331,6 +330,7 @@ class Ui_MainWindow(object):
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
         #print("Pid_output" + str(self.pid.output))
 
+
     def updateProfileTime(self):
         global PROFILE_TIME
         global CURRENT_PROFILE_RAMP_TEMP
@@ -343,7 +343,8 @@ class Ui_MainWindow(object):
                 CURRENT_PROFILE_RAMP_TEMP = CURRENT_PROFILE_RAMP_TEMP + CURRENT_RAMP
 
             self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
-            self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
+            self.setTempText.setText(
+                '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
 
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
@@ -386,6 +387,8 @@ class Ui_MainWindow(object):
             PID_GPIO.start(self.pid_output)
         elif self.pid_status == 'off':
             PID_GPIO.stop()
+        self.statelabel.setText(str(CURRENT_KILN_STATE))
+
 
     # def updateProfileTemperature(self):
     #     global PROFILE_TIME
