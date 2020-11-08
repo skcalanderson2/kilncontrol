@@ -86,9 +86,7 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
 
         self.current_temp = QtWidgets.QLabel(self.centralwidget)
-        self.current_temp.setGeometry(QtCore.QRect(40, 80, 271, 91))
-
-
+        self.current_temp.setGeometry(QtCore.QRect(40, 35, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(14)
