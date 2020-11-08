@@ -208,7 +208,7 @@ class Ui_MainWindow(object):
         # #self.profileTempTimer.start(60000)
  
         self.tempTimer = QtCore.QTimer()
-        self.tempTimer.timeout.connect(self.updateState())
+        self.tempTimer.timeout.connect(self.updateState)
         self.tempTimer.start(1000)
         self.retranslateUi(MainWindow)
                 # QtCore.QMetaObject.connectSlotsByName(MainWindow)
