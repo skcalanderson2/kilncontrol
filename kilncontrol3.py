@@ -258,18 +258,18 @@ class Ui_MainWindow(object):
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
                     LAST_KILN_STATE = CURRENT_KILN_STATE
-                    CURRENT_KILN_STATE = KilnState.PROFILE_HEATING
-                    self.setupProfile()
+                CURRENT_KILN_STATE = KilnState.PROFILE_HEATING
+                self.setupProfile()
 #                   self.pid_status = 'on'
         if b.text() == "Kiln Manual On":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
                     LAST_KILN_STATE = CURRENT_KILN_STATE
-                    CURRENT_KILN_STATE = KilnState.MANUAL_HEATING
-                    self.pid_status = 'on'
-                    if not math.isnan(self.sBKilnTargetTemp.value()):
-                        self.targetTemp = self.sBKilnTargetTemp.value()
-                        self.pid.SetPoint = self.targetTemp
+                CURRENT_KILN_STATE = KilnState.MANUAL_HEATING
+                self.pid_status = 'on'
+                if not math.isnan(self.sBKilnTargetTemp.value()):
+                    self.targetTemp = self.sBKilnTargetTemp.value()
+                    self.pid.SetPoint = self.targetTemp
         if b.text() == "Kiln  Off":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
