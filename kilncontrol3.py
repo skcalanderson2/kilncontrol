@@ -309,6 +309,8 @@ class Ui_MainWindow(object):
             self.updateProfileHeatingState(temp)
         if self.pid_status == 'on':
             PID_GPIO.start(self.pid_output)
+        elif self.pid_status == 'off':
+            PID_GPIO.stop()
 
     # def updateProfileTemperature(self):
     #     global PROFILE_TIME
