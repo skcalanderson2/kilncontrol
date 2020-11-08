@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QtCore.QRect(30, 20, 251, 41))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
-        font.setPointSize(18)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.label.setFont(font)
@@ -91,7 +91,7 @@ class Ui_MainWindow(object):
 
         font = QtGui.QFont()
         font.setFamily("FreeSans")
-        font.setPointSize(48)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.current_temp.setFont(font)
@@ -168,7 +168,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
 
         self.sBKilnTargetTemp = QtWidgets.QSpinBox(self.centralwidget)
-        self.sBKilnTargetTemp.setGeometry(QtCore.QRect(250, 310, 171, 61))
+        self.sBKilnTargetTemp.setGeometry(QtCore.QRect(250, 350, 171, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(14)
