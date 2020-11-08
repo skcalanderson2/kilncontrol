@@ -15,7 +15,7 @@ import math
 from getSetTempDialog import Ui_Dialog
 import PID
 from enum import Enum
-#import pyqtgraph as pg
+import pyqtgraph as pg
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.OUT)
@@ -173,7 +173,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
 
         self.statelabel = QtWidgets.QLabel(self.centralwidget)
-        self.statelabel.setGeometry(QtCore.QRect(620, 270, 140, 61))
+        self.statelabel.setGeometry(QtCore.QRect(620, 270, 160, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(12)
@@ -183,7 +183,7 @@ class Ui_MainWindow(object):
         self.statelabel.setObjectName("statelabel")
 
         self.pidoutputlabel = QtWidgets.QLabel(self.centralwidget)
-        self.pidoutputlabel.setGeometry(QtCore.QRect(250, 280, 100, 61))
+        self.pidoutputlabel.setGeometry(QtCore.QRect(250, 280, 130, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(12)
