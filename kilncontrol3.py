@@ -184,7 +184,7 @@ class Ui_MainWindow(object):
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         #self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
-        self.element_image.setGeometry(QtCore.QRect(30, 350, 100, 53))
+        self.element_image.setGeometry(QtCore.QRect(70, 350, 100, 53))
         self.element_image.setText("")
         self.element_image.setScaledContents(True)
         self.element_image.setObjectName("element_image")
@@ -196,7 +196,7 @@ class Ui_MainWindow(object):
         font.setPointSize(8)
         self.exitButton = QtWidgets.QPushButton(self.centralwidget)
         self.exitButton.setFont(font)
-        self.exitButton.setGeometry(QtCore.QRect(690,400,81,31))
+        self.exitButton.setGeometry(QtCore.QRect(690,350,81,31))
         self.exitButton.setObjectName("exitButton")
         self.exitButton.clicked.connect(MainWindow.close)
 
