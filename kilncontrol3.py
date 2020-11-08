@@ -281,7 +281,7 @@ class Ui_MainWindow(object):
         PROFILE_TIME = 0
         CURRENT_RAMP = temp_profile0[1]
         CURRENT_SET_POINT = temp_final_temp
-        self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
+        #self.setTempText.setText(str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
         self.statelabel.setText(str(CURRENT_KILN_STATE))
 
         # self.profileTempTimer.start(60000)
