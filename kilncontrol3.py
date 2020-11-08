@@ -182,13 +182,14 @@ class Ui_MainWindow(object):
 
         self.sBKilnTargetTemp.valueChanged[int].connect(self.targetTempChange)
 
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(400, 30, 381, 201))
-        self.label_3.setText("")
-        self.label_3.setScaledContents(True)
-        self.label_3.setObjectName("label_3")
+        self.element_image = QtWidgets.QLabel(self.centralwidget)
+        #self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
+        self.element_image.setGeometry(QtCore.QRect(400, 30, 100, 53))
+        self.element_image.setText("")
+        self.element_image.setScaledContents(True)
+        self.element_image.setObjectName("element_image")
 
-        self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
+        self.element_image.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
 
         font = QtGui.QFont()
         font.setFamily("FreeSans")
@@ -303,9 +304,9 @@ class Ui_MainWindow(object):
 
     def updateState(self):
         if self.pid.output > 0.0 and self.pid_status == 'on':
-            self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
+            self.element_image.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
         else:
-            self.label_3.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
+            self.element_image.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
 
         print("Current State:" + str(CURRENT_KILN_STATE))
         temp = sensor.readTempC()
