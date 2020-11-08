@@ -304,7 +304,7 @@ class Ui_MainWindow(object):
                     self.profileTempTimer.stop()
 
     def updatePIDTemp(self, temp):
-        print("UpdatePIDTemp Called")
+        #print("UpdatePIDTemp Called")
         if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
             self.pid.update(temp)
         if self.pid.output > 100:
@@ -313,13 +313,14 @@ class Ui_MainWindow(object):
             self.pid_output = 0
         else:
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
-        print("Pid_output" + str(self.pid.output))
+        #print("Pid_output" + str(self.pid.output))
 
     def updateProfileTime(self):
         global PROFILE_TIME
         global CURRENT_PROFILE_RAMP_TEMP
         global CURRENT_RAMP
         global CURRENT_SET_POINT
+        print("updateProfileTime called")
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             PROFILE_TIME = PROFILE_TIME + 1
             if CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT:
