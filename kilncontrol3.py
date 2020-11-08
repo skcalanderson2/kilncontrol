@@ -259,7 +259,7 @@ class Ui_MainWindow(object):
         global CURRENT_SET_POINT
         global CURRENT_RAMP
 
-        #once I get spinner widget to set profile point the will will update the current temp profile number
+        # once I get spinner widget to set profile point the will will update the current temp profile number
 
         temp_profile0 = Temp_Profile[0]
         temp_final_temp = temp_profile0[4]
@@ -271,8 +271,8 @@ class Ui_MainWindow(object):
         PROFILE_TIME = 0
         CURRENT_RAMP = temp_profile0[1]
         CURRENT_SET_POINT = temp_final_temp
-        #self.profileTempTimer.start(60000)
-        print(self.profileTempTimer.isActive())
+        # self.profileTempTimer.start(60000)
+        # print(self.profileTempTimer.isActive())
 
     def btnstate(self, b):
         global CURRENT_KILN_STATE
