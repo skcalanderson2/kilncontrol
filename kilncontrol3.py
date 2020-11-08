@@ -173,7 +173,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
 
         self.statelabel = QtWidgets.QLabel(self.centralwidget)
-        self.statelabel.setGeometry(QtCore.QRect(620, 280, 100, 61))
+        self.statelabel.setGeometry(QtCore.QRect(620, 270, 140, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(12)
@@ -340,8 +340,9 @@ class Ui_MainWindow(object):
             self.pid_output = 0
         else:
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
-        #print("Pid_output" + str(self.pid.output))
-        self.pidoutputlabel.setText('{:{width}.{prec}f}'.format(self.pid.output, width=6, prec=2))
+        print("Pid_output" + str(self.pid.output))
+
+        self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid.output, width=6, prec=2))
 
 
     def updateProfileTime(self):
