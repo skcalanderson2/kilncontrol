@@ -48,6 +48,7 @@ LAST_KILN_STATE = KilnState.IDLE
 CURRENT_Temp_Profile_Number  = 1
 START_TEMP = 0
 PROFILE_TIME = 0
+PID_GPIO.stop()
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
