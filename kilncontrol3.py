@@ -184,7 +184,7 @@ class Ui_MainWindow(object):
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         #self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
-        self.element_image.setGeometry(QtCore.QRect(20, 300, 100, 53))
+        self.element_image.setGeometry(QtCore.QRect(30, 350, 100, 53))
         self.element_image.setText("")
         self.element_image.setScaledContents(True)
         self.element_image.setObjectName("element_image")
