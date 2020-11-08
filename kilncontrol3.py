@@ -174,7 +174,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
 
         self.statelabel = QtWidgets.QLabel(self.centralwidget)
-        self.statelabel.setGeometry(QtCore.QRect(620, 270, 160, 61))
+        self.statelabel.setGeometry(QtCore.QRect(580, 270, 220, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(12)
@@ -320,6 +320,7 @@ class Ui_MainWindow(object):
                 self.profileTempTimer.stop()
                 if not math.isnan(self.sBKilnTargetTemp.value()):
                     self.targetTemp = self.sBKilnTargetTemp.value()
+                    print('sBKilnTargetTemp: ' + str(self.sBKilnTargetTemp.value()))
                     self.pid.SetPoint = self.targetTemp
                     self.statelabel.setText("")
         if b.text() == "Kiln  Off":
@@ -341,7 +342,7 @@ class Ui_MainWindow(object):
             self.pid_output = 0
         else:
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
-        print("Pid_output" + str(self.pid.output))
+        #print("Pid_output" + str(self.pid.output))
 
         self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 
