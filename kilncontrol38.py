@@ -67,8 +67,8 @@ CURRENT_PROFILE_RAMP_TEMP = 0
 CURRENT_RAMP = 0.0
 CURRENT_SET_POINT = 0
 
-PID_GPIO.stop()
-
+# PID_GPIO.stop()
+PID_GPIO.start(0)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -412,7 +412,14 @@ class Ui_MainWindow(object):
         elif CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             self.updateProfileHeatingState(temp)
         if self.pid_status == 'on':
-            PID_GPIO.start(self.pid_output)
+            # PID_GPIO.start(self.pid_output)
+            if self.pid.output > 100:
+                self.pid_output = 100
+            elif self.pid.output < 0:
+                self.pid_output = 0
+            else:
+                self.pid_output = self.pid.output
+            PID_GPIO.ChangeDutyCycle(self.pid_output)
         elif self.pid_status == 'off':
             PID_GPIO.stop()
         self.statelabel.setText(str(CURRENT_KILN_STATE))
