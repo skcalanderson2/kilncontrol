@@ -235,14 +235,14 @@ class Ui_MainWindow(object):
 
         self.profileTempTimer = QtCore.QTimer()
         self.profileTempTimer.timeout.connect(self.updateProfileTime)
-        self.profileTempTimer.start(60000)
+        #self.profileTempTimer.start(60000)
 
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.updateState)
         self.tempTimer.start(1000)
         self.retranslateUi(MainWindow)
         # QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        self.setupProfile()
+        #self.setupProfile()
 
 
     def retranslateUi(self, MainWindow):
@@ -261,11 +261,10 @@ class Ui_MainWindow(object):
     def targetTempChange(self):
         print("targetTempChange Called")
         self.targetTemp = self.sBKilnTargetTemp.value()
-        # self.pid.SetPoint = self.targetTemp
+        if CURRENT_KILN_STATE == Kiln.MANUAL_HEATING:
+            self.pid.SetPoint = self.targetTemp
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
         self.radioButton_2.setEnabled(True)
-        if self.pid_status == 'on':
-            self.pid.SetPoint = self.targetTemp
 
     def setNewTargetTemp(self):
         print("setNewTargetTemp Called")
@@ -297,7 +296,7 @@ class Ui_MainWindow(object):
         CURRENT_SET_POINT = temp_final_temp
         self.setTempText.setText('{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
 
-        # self.profileTempTimer.start(60000)
+        self.profileTempTimer.start(60000)
         # print(self.profileTempTimer.isActive())
 
     def btnstate(self, b):
@@ -320,17 +319,20 @@ class Ui_MainWindow(object):
                 self.profileTempTimer.stop()
                 if not math.isnan(self.sBKilnTargetTemp.value()):
                     self.targetTemp = self.sBKilnTargetTemp.value()
+                    self.pid.SetPoint = self.targetTemp
                     print('sBKilnTargetTemp: ' + str(self.sBKilnTargetTemp.value()))
                     self.pid.SetPoint = self.targetTemp
-                    self.statelabel.setText("")
+                    # self.statelabel.setText("")
+                    self.setTempText.setText(
+                        '{:{width}.{prec}f}'.format(self.targetTemp, width=6, prec=2) + '\N{DEGREE SIGN}C')
         if b.text() == "Kiln  Off":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
                     LAST_KILN_STATE = CURRENT_KILN_STATE
                     CURRENT_KILN_STATE = KilnState.IDLE
                     self.pid_status = 'off'
-                    self.statelabel.setText("")
-                    # self.profileTempTimer.stop()
+                    # self.statelabel.setText("")
+                    self.profileTempTimer.stop()
 
     def updatePIDTemp(self, temp):
         #print("UpdatePIDTemp Called")
@@ -400,6 +402,7 @@ class Ui_MainWindow(object):
             self.updateManualHeatingState(temp)
         elif CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             self.updateProfileHeatingState(temp)
+            
         if self.pid_status == 'on':
             PID_GPIO.start(self.pid_output)
         elif self.pid_status == 'off':
