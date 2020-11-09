@@ -281,7 +281,7 @@ class Ui_MainWindow(object):
         #             [7, -2.5, 781, 840, 600]]
         setPointTimeList = [0,60, 240,300,420,540,780,840]
         setPointTempList = [0,150,150,370,370,750,750,600]
-        self.temperaturegraph.plot(setPointTimeList, setPointTempList, pen=pg.mkPen('y'))
+        self.temperaturegraph.plot(setPointTimeList, setPointTempList, pen=pg.mkPen('y',style=QtCore.Qt.DashLine))
 
     def targetTempChange(self):
         print("targetTempChange Called")
