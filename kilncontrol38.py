@@ -268,6 +268,7 @@ class Ui_MainWindow(object):
         setPointTempList = [0,150,150,370,370,750,750,600]
 
         self.temperaturegraph.plot(setPointTempList, setPointTempList)
+        self.setCentralWidget(self.centralwidget)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
