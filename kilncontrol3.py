@@ -310,6 +310,7 @@ class Ui_MainWindow(object):
                 CURRENT_KILN_STATE = KilnState.PROFILE_HEATING
                 self.setupProfile()
                 self.pid_status = 'on'
+                PID_GPIO.start(0)    
         if b.text() == "Kiln Manual On":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
@@ -325,6 +326,8 @@ class Ui_MainWindow(object):
                     # self.statelabel.setText("")
                     self.setTempText.setText(
                         '{:{width}.{prec}f}'.format(self.targetTemp, width=6, prec=2) + '\N{DEGREE SIGN}C')
+                    PID_GPIO.start(0)
+                    self.updateProfileTime()
         if b.text() == "Kiln  Off":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
@@ -333,6 +336,7 @@ class Ui_MainWindow(object):
                     self.pid_status = 'off'
                     # self.statelabel.setText("")
                     self.profileTempTimer.stop()
+                    PID_GPIO.stop()
 
     def updatePIDTemp(self, temp):
         #print("UpdatePIDTemp Called")
@@ -404,7 +408,7 @@ class Ui_MainWindow(object):
             self.updateProfileHeatingState(temp)
             
         if self.pid_status == 'on':
-            PID_GPIO.start(self.pid_output)
+            PID_GPIO.ChangeDutyCycle(self.pid_output)
         elif self.pid_status == 'off':
             PID_GPIO.stop()
         self.statelabel.setText(str(CURRENT_KILN_STATE))
