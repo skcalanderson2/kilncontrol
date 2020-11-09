@@ -255,7 +255,7 @@ class Ui_MainWindow(object):
         # self.setupProfile()
 
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
-        self.temperaturegraph.setGeometry(200, 20, 400, 200)
+        self.temperaturegraph.setGeometry(300, 20, 450, 250)
 
         # Temp_Profile = [[1, 2.5, 0, 60, 150],
         #             [2, 0.0, 61, 240, 150],
