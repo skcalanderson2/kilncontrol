@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
         self.temperaturegraph.setGeometry(300, 20, 450, 250)
         self.plotProfile()
-        self.currentTemperaturePlot = self.temperaturegraph.plot(0, 0, pen=pg.mkPen('y', style=QtCore.Qt.DashLine))
+        self.currentTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('y', style=QtCore.Qt.DashLine))
 
 
     def retranslateUi(self, MainWindow):
