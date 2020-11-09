@@ -174,7 +174,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
 
         self.statelabel = QtWidgets.QLabel(self.centralwidget)
-        self.statelabel.setGeometry(QtCore.QRect(580, 270, 220, 61))
+        self.statelabel.setGeometry(QtCore.QRect(540, 270, 240, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(12)
@@ -192,8 +192,6 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.pidoutputlabel.setFont(font)
         self.pidoutputlabel.setObjectName("statelabel")
-
-
 
         self.sBKilnTargetTemp = QtWidgets.QSpinBox(self.centralwidget)
         self.sBKilnTargetTemp.setGeometry(QtCore.QRect(250, 350, 171, 61))
@@ -235,14 +233,14 @@ class Ui_MainWindow(object):
 
         self.profileTempTimer = QtCore.QTimer()
         self.profileTempTimer.timeout.connect(self.updateProfileTime)
-        #self.profileTempTimer.start(60000)
+        # self.profileTempTimer.start(60000)
 
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.updateState)
         self.tempTimer.start(1000)
         self.retranslateUi(MainWindow)
         # QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        #self.setupProfile()
+        # self.setupProfile()
 
 
     def retranslateUi(self, MainWindow):
@@ -339,7 +337,7 @@ class Ui_MainWindow(object):
                     PID_GPIO.stop()
 
     def updatePIDTemp(self, temp):
-        #print("UpdatePIDTemp Called")
+        # print("UpdatePIDTemp Called")
         if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
             self.pid.update(temp)
         if self.pid.output > 100:
@@ -348,7 +346,7 @@ class Ui_MainWindow(object):
             self.pid_output = 0
         else:
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
-        #print("Pid_output" + str(self.pid.output))
+        # print("Pid_output" + str(self.pid.output))
 
         self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 

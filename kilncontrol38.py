@@ -344,7 +344,7 @@ class Ui_MainWindow(object):
         CURRENT_SET_POINT = temp_final_temp
         self.setTempText.setText(
             '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
-        self.sBKilnTargetTemp.setValue(int(CURRENT_PROFILE_RAMP_TEMP))
+        # self.sBKilnTargetTemp.setValue(int(CURRENT_PROFILE_RAMP_TEMP))
         self.profileTempTimer.start(60000)
         # print(self.profileTempTimer.isActive())
 
@@ -400,7 +400,7 @@ class Ui_MainWindow(object):
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
         # print("Pid_output" + str(self.pid.output))
 
-        #self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
+        self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 
     def updateProfileTime(self):
         global PROFILE_TIME
@@ -417,12 +417,12 @@ class Ui_MainWindow(object):
                 self.pid.SetPoint = CURRENT_SET_POINT
                 self.setTempText.setText(
                     '{:{width}.{prec}f}'.format(CURRENT_SET_POINT, width=6, prec=2) + '\N{DEGREE SIGN}C')
-                self.sBKilnTargetTemp.setValue(CURRENT_SET_POINT)
+                # self.sBKilnTargetTemp.setValue(CURRENT_SET_POINT)
             else:
                 self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
                 self.setTempText.setText(
                     '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
-                self.sBKilnTargetTemp.setValue(int(CURRENT_PROFILE_RAMP_TEMP))
+                # self.sBKilnTargetTemp.setValue(int(CURRENT_PROFILE_RAMP_TEMP))
 
             print('current profile ramp temp: ' + str(CURRENT_PROFILE_RAMP_TEMP))
 
