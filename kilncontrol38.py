@@ -67,6 +67,10 @@ PROFILE_TIME = 0
 CURRENT_PROFILE_RAMP_TEMP = 0
 CURRENT_RAMP = 0.0
 CURRENT_SET_POINT = 0
+TEMPERATURE_DATA_TEMP = [0]
+TEMPERATURE_DATA_TIME = [0]
+CURRENT_TEMPERATURE = 0
+TEMP_TAKING_TIME = 0
 
 PID_GPIO.stop()
 
@@ -247,16 +251,21 @@ class Ui_MainWindow(object):
         self.profileTempTimer.timeout.connect(self.updateProfileTime)
         # self.profileTempTimer.start(60000)
 
+        self.plotTempTimer = QtCore.QTimer()
+        self.plotTempTimer.timeout.connect(self.plotCurrentTemperature)
+        self.profileTempTimer.start(60000)
+
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.updateState)
         self.tempTimer.start(1000)
         self.retranslateUi(MainWindow)
         # QtCore.QMetaObject.connectSlotsByName(MainWindow)
         # self.setupProfile()
-
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
         self.temperaturegraph.setGeometry(300, 20, 450, 250)
         self.plotProfile()
+        self.currentTemperaturePlot = self.temperaturegraph.plot(0, 0, pen=pg.mkPen('y', style=QtCore.Qt.DashLine))
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -281,7 +290,18 @@ class Ui_MainWindow(object):
         #             [7, -2.5, 781, 840, 600]]
         setPointTimeList = [0,60, 240,300,420,540,780,840]
         setPointTempList = [0,150,150,370,370,750,750,600]
-        self.temperaturegraph.plot(setPointTimeList, setPointTempList, pen=pg.mkPen('y',style=QtCore.Qt.DashLine))
+        self.temperaturegraph.plot(setPointTimeList, setPointTempList)
+
+    def plotCurrentTemperature(self):
+        global TEMPERATURE_DATA_TIME
+        global TEMPERATURE_DATA_TEMP
+        global TEMP_TAKING_TIME
+
+        #TEMP_TAKING_TIME = TEMP_TAKING_TIME + 1
+        if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
+            TEMPERATURE_DATA_TIME.append(PROFILE_TIME)
+            TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
+            self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP)
 
     def targetTempChange(self):
         print("targetTempChange Called")
@@ -306,12 +326,14 @@ class Ui_MainWindow(object):
         global PROFILE_TIME
         global CURRENT_SET_POINT
         global CURRENT_RAMP
+        global CURRENT_TEMPERATURE
 
         # once I get spinner widget to set profile point the will will update the current temp profile number
 
         temp_profile0 = Temp_Profile[0]
         temp_final_temp = temp_profile0[4]
         temp_starting_temp = sensor.temperature
+        CURRENT_TEMPERATURE = temp_starting_temp
         temp_profile0[1] = (temp_final_temp - temp_starting_temp) / 60.0
         print("Profile Temperature: " + str(temp_starting_temp))
         START_TEMP = temp_starting_temp
@@ -428,12 +450,14 @@ class Ui_MainWindow(object):
         self.updatePIDTemp(current_temperature)
 
     def updateState(self):
+        global CURRENT_TEMPERATURE
         if self.pid.output > 0.0 and self.pid_status == 'on':
             self.element_image.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOn.png"))
         else:
             self.element_image.setPixmap(QtGui.QPixmap("/home/pi/kilncontrol/coilTransparentOff.png"))
 
         temp = sensor.temperature
+        CURRENT_TEMPERATURE = temp
         self.logData(temp)
         self.updateCurrentTemperatureText(temp)
         if CURRENT_KILN_STATE == KilnState.MANUAL_HEATING:
