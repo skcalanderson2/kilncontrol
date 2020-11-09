@@ -344,7 +344,7 @@ class Ui_MainWindow(object):
         CURRENT_SET_POINT = temp_final_temp
         self.setTempText.setText(
             '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
-        self.sBKilnTargetTemp.setValue(str(CURRENT_PROFILE_RAMP_TEMP))
+        self.sBKilnTargetTemp.setValue(int(CURRENT_PROFILE_RAMP_TEMP))
         self.profileTempTimer.start(60000)
         # print(self.profileTempTimer.isActive())
 
