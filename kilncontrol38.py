@@ -21,6 +21,7 @@ from getSetTempDialog import Ui_Dialog
 import PID
 from enum import Enum
 import numpy
+from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 # GPIO.setmode(GPIO.BOARD)
@@ -185,7 +186,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
 
         self.statelabel = QtWidgets.QLabel(self.centralwidget)
-        self.statelabel.setGeometry(QtCore.QRect(580, 270, 220, 61))
+        self.statelabel.setGeometry(QtCore.QRect(540, 270, 240, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(12)
@@ -253,6 +254,21 @@ class Ui_MainWindow(object):
         # QtCore.QMetaObject.connectSlotsByName(MainWindow)
         # self.setupProfile()
 
+        self.temperaturegraph = pg.PlotWidget()
+        self.temperaturegraph.setGeometry(80, 20, 400, 300)
+
+        # Temp_Profile = [[1, 2.5, 0, 60, 150],
+        #             [2, 0.0, 61, 240, 150],
+        #             [3, 3.6, 241, 300, 370],
+        #             [4, 0.0, 301, 420, 370],
+        #             [5, 3.1, 421, 540, 750],
+        #             [6, 0.0, 541, 780, 750],
+        #             [7, -2.5, 781, 840, 600]]
+        setPointTimeList = [0,60, 240,300,420,540,780,840]
+        setPointTempList = [0,150,150,370,370,750,750,600]
+
+        self.temperaturegraph.plot(setPointTempList, setPointTempList)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -304,7 +320,7 @@ class Ui_MainWindow(object):
         CURRENT_SET_POINT = temp_final_temp
         self.setTempText.setText(
             '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
-
+        self.sBKilnTargetTemp.setValue(CURRENT_PROFILE_RAMP_TEMP)
         self.profileTempTimer.start(60000)
         # print(self.profileTempTimer.isActive())
 
@@ -359,7 +375,7 @@ class Ui_MainWindow(object):
             self.pid_output = self.pid.output  # gonna store the pid output in a class variable just to have it on hand
         # print("Pid_output" + str(self.pid.output))
 
-        self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
+        #self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 
     def updateProfileTime(self):
         global PROFILE_TIME
@@ -376,10 +392,12 @@ class Ui_MainWindow(object):
                 self.pid.SetPoint = CURRENT_SET_POINT
                 self.setTempText.setText(
                     '{:{width}.{prec}f}'.format(CURRENT_SET_POINT, width=6, prec=2) + '\N{DEGREE SIGN}C')
+                self.sBKilnTargetTemp.setValue(CURRENT_SET_POINT)
             else:
                 self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
                 self.setTempText.setText(
                     '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
+                self.sBKilnTargetTemp.setValue(CURRENT_PROFILE_RAMP_TEMP)
 
             print('current profile ramp temp: ' + str(CURRENT_PROFILE_RAMP_TEMP))
 
@@ -426,6 +444,7 @@ class Ui_MainWindow(object):
         elif self.pid_status == 'off':
             PID_GPIO.stop()
         self.statelabel.setText(str(CURRENT_KILN_STATE))
+        self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 
     # def updateProfileTemperature(self):
     #     global PROFILE_TIME
