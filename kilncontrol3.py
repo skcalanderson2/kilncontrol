@@ -261,7 +261,7 @@ class Ui_MainWindow(object):
     def targetTempChange(self):
         print("targetTempChange Called")
         self.targetTemp = self.sBKilnTargetTemp.value()
-        if CURRENT_KILN_STATE == Kiln.MANUAL_HEATING:
+        if CURRENT_KILN_STATE == KilnState.MANUAL_HEATING:
             self.pid.SetPoint = self.targetTemp
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
         self.radioButton_2.setEnabled(True)

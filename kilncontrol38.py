@@ -422,7 +422,7 @@ class Ui_MainWindow(object):
                 self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
                 self.setTempText.setText(
                     '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
-                self.sBKilnTargetTemp.setValue(CURRENT_PROFILE_RAMP_TEMP)
+                self.sBKilnTargetTemp.setValue(int(CURRENT_PROFILE_RAMP_TEMP))
 
             print('current profile ramp temp: ' + str(CURRENT_PROFILE_RAMP_TEMP))
 
