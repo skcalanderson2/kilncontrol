@@ -410,9 +410,11 @@ class Ui_MainWindow(object):
             self.updateManualHeatingState(temp)
         elif CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             self.updateProfileHeatingState(temp)
-            
+
         if self.pid_status == 'on':
+            print("PID is ON updating duty cycle:" + str(self.pid_output))
             PID_GPIO.ChangeDutyCycle(self.pid_output)
+            print("GPIO function:" + GPIO.gpio_function(16))
         elif self.pid_status == 'off':
             PID_GPIO.stop()
         self.statelabel.setText(str(CURRENT_KILN_STATE))
