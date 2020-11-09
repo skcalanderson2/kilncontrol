@@ -254,7 +254,7 @@ class Ui_MainWindow(object):
         # QtCore.QMetaObject.connectSlotsByName(MainWindow)
         # self.setupProfile()
 
-        self.temperaturegraph = pg.PlotWidget()
+        self.temperaturegraph = pg.PlotWidget(self.centralwidget)
         self.temperaturegraph.setGeometry(80, 20, 400, 300)
 
         # Temp_Profile = [[1, 2.5, 0, 60, 150],
@@ -268,7 +268,6 @@ class Ui_MainWindow(object):
         setPointTempList = [0,150,150,370,370,750,750,600]
 
         self.temperaturegraph.plot(setPointTempList, setPointTempList)
-        self.setCentralWidget(self.centralwidget)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
