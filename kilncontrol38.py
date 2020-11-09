@@ -24,7 +24,7 @@ import numpy
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
-# GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(16, GPIO.OUT)
 
 PID_GPIO = GPIO.PWM(16, .2)
