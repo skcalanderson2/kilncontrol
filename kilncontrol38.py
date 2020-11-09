@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
         self.temperaturegraph.setGeometry(300, 20, 450, 250)
         self.plotProfile()
-        self.currentTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('y', style=QtCore.Qt.DashLine))
+        self.currentTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('y', style=QtCore.Qt.DashLine, width=2))
 
 
     def retranslateUi(self, MainWindow):
@@ -301,7 +301,8 @@ class Ui_MainWindow(object):
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             TEMPERATURE_DATA_TIME.append(PROFILE_TIME)
             TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
-            self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP, width = 2.0)
+            self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP)
+        print(TEMPERATURE_DATA_TEMP)
 
     def targetTempChange(self):
         print("targetTempChange Called")
