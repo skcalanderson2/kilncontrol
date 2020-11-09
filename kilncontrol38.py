@@ -253,7 +253,7 @@ class Ui_MainWindow(object):
 
         self.plotTempTimer = QtCore.QTimer()
         self.plotTempTimer.timeout.connect(self.plotCurrentTemperature)
-        self.profileTempTimer.start(60000)
+        self.plotTempTimer.start(60000)
 
         self.tempTimer = QtCore.QTimer()
         self.tempTimer.timeout.connect(self.updateState)
@@ -296,7 +296,7 @@ class Ui_MainWindow(object):
         global TEMPERATURE_DATA_TIME
         global TEMPERATURE_DATA_TEMP
         global TEMP_TAKING_TIME
-
+        print("PlotCurrentTemperature Called")
         #TEMP_TAKING_TIME = TEMP_TAKING_TIME + 1
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             TEMPERATURE_DATA_TIME.append(PROFILE_TIME)
@@ -344,7 +344,7 @@ class Ui_MainWindow(object):
         CURRENT_SET_POINT = temp_final_temp
         self.setTempText.setText(
             '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
-        self.sBKilnTargetTemp.setValue(CURRENT_PROFILE_RAMP_TEMP)
+        self.sBKilnTargetTemp.setValue(str(CURRENT_PROFILE_RAMP_TEMP))
         self.profileTempTimer.start(60000)
         # print(self.profileTempTimer.isActive())
 
