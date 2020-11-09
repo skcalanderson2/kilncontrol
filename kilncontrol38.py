@@ -255,7 +255,7 @@ class Ui_MainWindow(object):
         # self.setupProfile()
 
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
-        self.temperaturegraph.setGeometry(80, 20, 400, 300)
+        self.temperaturegraph.setGeometry(200, 20, 400, 200)
 
         # Temp_Profile = [[1, 2.5, 0, 60, 150],
         #             [2, 0.0, 61, 240, 150],
@@ -267,7 +267,7 @@ class Ui_MainWindow(object):
         setPointTimeList = [0,60, 240,300,420,540,780,840]
         setPointTempList = [0,150,150,370,370,750,750,600]
 
-        self.temperaturegraph.plot(setPointTempList, setPointTempList)
+        self.temperaturegraph.plot(setPointTimeList, setPointTempList)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
