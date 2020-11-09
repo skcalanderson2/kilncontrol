@@ -256,18 +256,7 @@ class Ui_MainWindow(object):
 
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
         self.temperaturegraph.setGeometry(300, 20, 450, 250)
-
-        # Temp_Profile = [[1, 2.5, 0, 60, 150],
-        #             [2, 0.0, 61, 240, 150],
-        #             [3, 3.6, 241, 300, 370],
-        #             [4, 0.0, 301, 420, 370],
-        #             [5, 3.1, 421, 540, 750],
-        #             [6, 0.0, 541, 780, 750],
-        #             [7, -2.5, 781, 840, 600]]
-        setPointTimeList = [0,60, 240,300,420,540,780,840]
-        setPointTempList = [0,150,150,370,370,750,750,600]
-
-        self.temperaturegraph.plot(setPointTimeList, setPointTempList)
+        self.plotProfile()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -281,6 +270,18 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Current Target Temperature"))
         self.sBKilnTargetTemp.setSuffix(_translate("MainWindow", "°C"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
+
+    def plotProfile(self):
+        # Temp_Profile = [[1, 2.5, 0, 60, 150],
+        #             [2, 0.0, 61, 240, 150],
+        #             [3, 3.6, 241, 300, 370],
+        #             [4, 0.0, 301, 420, 370],
+        #             [5, 3.1, 421, 540, 750],
+        #             [6, 0.0, 541, 780, 750],
+        #             [7, -2.5, 781, 840, 600]]
+        setPointTimeList = [0,60, 240,300,420,540,780,840]
+        setPointTempList = [0,150,150,370,370,750,750,600]
+        self.temperaturegraph.plot(setPointTimeList, setPointTempList, pen=pg.mkPen('y'))
 
     def targetTempChange(self):
         print("targetTempChange Called")
@@ -333,6 +334,7 @@ class Ui_MainWindow(object):
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
                     LAST_KILN_STATE = CURRENT_KILN_STATE
                 CURRENT_KILN_STATE = KilnState.PROFILE_HEATING
+                self.plotProfile()
                 self.setupProfile()
                 self.pid_status = 'on'
                 PID_GPIO.start(0)
