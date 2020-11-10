@@ -388,6 +388,7 @@ class Ui_MainWindow(object):
                     # self.statelabel.setText("")
                     self.profileTempTimer.stop()
                     # PID_GPIO.stop()
+                    pwm.duty_cycle = 0
 
     def updatePIDTemp(self, temp):
         # print("UpdatePIDTemp Called")
@@ -473,6 +474,7 @@ class Ui_MainWindow(object):
             pwm.duty_cycle = (self.pid_output/100) * 65535
             print("GPIO function:" + str(GPIO.gpio_function(16)))
         elif self.pid_status == 'off':
+            pwm.duty_cycle = 0
             # PID_GPIO.stop()
             pass
         self.statelabel.setText(str(CURRENT_KILN_STATE))
