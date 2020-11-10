@@ -241,7 +241,7 @@ class Ui_MainWindow(object):
         self.exitButton.setFont(font)
         self.exitButton.setGeometry(QtCore.QRect(690, 350, 81, 31))
         self.exitButton.setObjectName("exitButton")
-        self.exitButton.clicked.connect(MainWindow.close)
+        self.exitButton.clicked.connect(self.endProgram)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -469,10 +469,10 @@ class Ui_MainWindow(object):
             self.updateProfileHeatingState(temp)
 
         if self.pid_status == 'on':
-            print("PID is ON updating duty cycle:" + str(self.pid_output))
+            # print("PID is ON updating duty cycle:" + str(self.pid_output))
             # PID_GPIO.ChangeDutyCycle(self.pid_output)
             pwm.duty_cycle = (self.pid_output/100) * 65535
-            print("GPIO function:" + str(GPIO.gpio_function(16)))
+            # print("GPIO function:" + str(GPIO.gpio_function(16)))
         elif self.pid_status == 'off':
             pwm.duty_cycle = 0
             # PID_GPIO.stop()
@@ -532,6 +532,10 @@ class Ui_MainWindow(object):
             self.sBKilnTargetTemp.setValue(self.targetTemp)
             self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
 
+    def endProgram(self):
+        pwm.deinit()
+        MainWindow.close()
+
 
 if __name__ == "__main__":
     import sys
@@ -544,5 +548,6 @@ if __name__ == "__main__":
     # MainWindow.showFullScreen()
     MainWindow.show()
     sys.exit(app.exec_())
-    PID_GPIO.stop()
-    GPIO.cleanup()
+
+    # PID_GPIO.stop()
+    # GPIO.cleanup()
