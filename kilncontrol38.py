@@ -29,7 +29,7 @@ import pyqtgraph as pg
 # GPIO.setup(16, GPIO.OUT)
 
 # PID_GPIO = GPIO.PWM(16, .2)
-pwm = pulseio.PWMOut(board.D23, frequency=0.2)
+pwm = pulseio.PWMOut(board.D23, frequency=60.0)
 # SPI_PORT = 0
 # SPI_DEVICE = 0
 # sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
