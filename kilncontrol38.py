@@ -473,6 +473,7 @@ class Ui_MainWindow(object):
             print("GPIO function:" + str(GPIO.gpio_function(16)))
         elif self.pid_status == 'off':
             # PID_GPIO.stop()
+            pass
         self.statelabel.setText(str(CURRENT_KILN_STATE))
         self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 
