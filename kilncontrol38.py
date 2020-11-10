@@ -29,7 +29,7 @@ import pyqtgraph as pg
 # GPIO.setup(16, GPIO.OUT)
 
 # PID_GPIO = GPIO.PWM(16, .2)
-pwm = pulseio.PWMOut(board.D23, frequency=60.0)
+pwm = pulseio.PWMOut(board.D23, frequency=1.0)
 # SPI_PORT = 0
 # SPI_DEVICE = 0
 # sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -470,6 +470,7 @@ class Ui_MainWindow(object):
         if self.pid_status == 'on':
             print("PID is ON updating duty cycle:" + str(self.pid_output))
             # PID_GPIO.ChangeDutyCycle(self.pid_output)
+            pwm.duty_cycle = (self.pid_output/100) * 65535
             print("GPIO function:" + str(GPIO.gpio_function(16)))
         elif self.pid_status == 'off':
             # PID_GPIO.stop()
