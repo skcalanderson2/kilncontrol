@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         # self.setupProfile()
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
         self.temperaturegraph.setGeometry(300, 20, 450, 250)
-        self.plotProfile()
+        # self.plotProfile()
         self.currentTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('y', style=QtCore.Qt.DashLine, width=2))
 
 
@@ -297,13 +297,17 @@ class Ui_MainWindow(object):
         global TEMPERATURE_DATA_TIME
         global TEMPERATURE_DATA_TEMP
         global TEMP_TAKING_TIME
-        print("PlotCurrentTemperature Called")
-        #TEMP_TAKING_TIME = TEMP_TAKING_TIME + 1
+        # print("PlotCurrentTemperature Called")
+        TEMP_TAKING_TIME = TEMP_TAKING_TIME + 1
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             TEMPERATURE_DATA_TIME.append(PROFILE_TIME)
             TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
-            self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP)
-        print(TEMPERATURE_DATA_TEMP)
+        else:
+            TEMPERATURE_DATA_TIME.append(TEMP_TAKING_TIME)
+            TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
+        self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP)
+
+        # print(TEMPERATURE_DATA_TEMP)
 
     def targetTempChange(self):
         print("targetTempChange Called")
