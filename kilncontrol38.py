@@ -13,8 +13,9 @@ import board
 import busio
 import digitalio
 import adafruit_max31855
+import pwmio
 
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 from time import strftime
 import math
 from getSetTempDialog import Ui_Dialog
@@ -24,11 +25,11 @@ import numpy
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
-#GPIO.setmode(GPIO.BOARD)
-GPIO.setup(16, GPIO.OUT)
+# GPIO.setmode(GPIO.BOARD)
+# GPIO.setup(16, GPIO.OUT)
 
-PID_GPIO = GPIO.PWM(16, .2)
-
+# PID_GPIO = GPIO.PWM(16, .2)
+pwm = pwmio.PWMOut(board.D23, frequency=.2)
 # SPI_PORT = 0
 # SPI_DEVICE = 0
 # sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -72,7 +73,7 @@ TEMPERATURE_DATA_TIME = [0]
 CURRENT_TEMPERATURE = 0
 TEMP_TAKING_TIME = 0
 
-PID_GPIO.stop()
+# PID_GPIO.stop()
 
 
 class Ui_MainWindow(object):
@@ -360,7 +361,7 @@ class Ui_MainWindow(object):
                 self.plotProfile()
                 self.setupProfile()
                 self.pid_status = 'on'
-                PID_GPIO.start(0)
+                # PID_GPIO.start(0)
         if b.text() == "Kiln Manual On":
             if b.isChecked() == True:
                 if LAST_KILN_STATE != CURRENT_KILN_STATE:
@@ -376,7 +377,7 @@ class Ui_MainWindow(object):
                     # self.statelabel.setText("")
                     self.setTempText.setText(
                         '{:{width}.{prec}f}'.format(self.targetTemp, width=6, prec=2) + '\N{DEGREE SIGN}C')
-                    PID_GPIO.start(0)
+                    # PID_GPIO.start(0)
                     self.updateProfileTime()
         if b.text() == "Kiln  Off":
             if b.isChecked() == True:
@@ -386,7 +387,7 @@ class Ui_MainWindow(object):
                     self.pid_status = 'off'
                     # self.statelabel.setText("")
                     self.profileTempTimer.stop()
-                    PID_GPIO.stop()
+                    # PID_GPIO.stop()
 
     def updatePIDTemp(self, temp):
         # print("UpdatePIDTemp Called")
@@ -468,10 +469,10 @@ class Ui_MainWindow(object):
 
         if self.pid_status == 'on':
             print("PID is ON updating duty cycle:" + str(self.pid_output))
-            PID_GPIO.ChangeDutyCycle(self.pid_output)
+            # PID_GPIO.ChangeDutyCycle(self.pid_output)
             print("GPIO function:" + str(GPIO.gpio_function(16)))
         elif self.pid_status == 'off':
-            PID_GPIO.stop()
+            # PID_GPIO.stop()
         self.statelabel.setText(str(CURRENT_KILN_STATE))
         self.pidoutputlabel.setText('PID out:{:{width}.{prec}f}'.format(self.pid_output, width=6, prec=2))
 
