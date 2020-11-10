@@ -1,21 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\kilncontrol.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
-#import Adafruit_GPIO.SPI as SPI
-#import Adafruit_MAX31855.MAX31855 as MAX31855
 import board
 import busio
 import digitalio
 import adafruit_max31855
 import pulseio
 
-#import RPi.GPIO as GPIO
 from time import strftime
 import math
 from getSetTempDialog import Ui_Dialog
@@ -37,8 +28,6 @@ pwm = pulseio.PWMOut(board.D23, frequency=1.0)
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 cs = digitalio.DigitalInOut(board.D5)
 sensor = adafruit_max31855.MAX31855(spi, cs)
-
-
 
 P = 1.0
 I = 1.0
@@ -70,10 +59,9 @@ CURRENT_RAMP = 0.0
 CURRENT_SET_POINT = 0
 TEMPERATURE_DATA_TEMP = [0]
 TEMPERATURE_DATA_TIME = [0]
+TARGET_TEMPERATURE_LIST = []
 CURRENT_TEMPERATURE = 0
 TEMP_TAKING_TIME = 0
-
-# PID_GPIO.stop()
 
 
 class Ui_MainWindow(object):
@@ -266,7 +254,7 @@ class Ui_MainWindow(object):
         self.temperaturegraph.setGeometry(300, 20, 450, 250)
         # self.plotProfile()
         self.currentTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('y', style=QtCore.Qt.DashLine, width=2))
-
+        self.targetTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('w', width=2))
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -297,6 +285,8 @@ class Ui_MainWindow(object):
         global TEMPERATURE_DATA_TIME
         global TEMPERATURE_DATA_TEMP
         global TEMP_TAKING_TIME
+        global TARGET_TEMPERATURE_LIST
+
         # print("PlotCurrentTemperature Called")
         TEMP_TAKING_TIME = TEMP_TAKING_TIME + 1
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
@@ -306,8 +296,11 @@ class Ui_MainWindow(object):
             TEMPERATURE_DATA_TIME.append(TEMP_TAKING_TIME)
             TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
         self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP)
-
+        if CURRENT_KILN_STATE == KilnState.MANUAL_HEATING:
+            TARGET_TEMPERATURE_LIST.append(self.targetTemp)
+            self.targetTemperaturePlot.setData(TARGET_TEMPERATURE_LIST)
         # print(TEMPERATURE_DATA_TEMP)
+        # print(TEMPERATURE_DATA_TIME)
 
     def targetTempChange(self):
         print("targetTempChange Called")
@@ -335,7 +328,8 @@ class Ui_MainWindow(object):
         global CURRENT_TEMPERATURE
 
         # once I get spinner widget to set profile point the will will update the current temp profile number
-
+        self.temperaturegraph.clear()
+        self.plotProfile()
         temp_profile0 = Temp_Profile[0]
         temp_final_temp = temp_profile0[4]
         temp_starting_temp = sensor.temperature
@@ -356,6 +350,7 @@ class Ui_MainWindow(object):
     def btnstate(self, b):
         global CURRENT_KILN_STATE
         global LAST_KILN_STATE
+        global TEMP_TAKING_TIME
         print("btnstate called " + b.text())
         if b.text() == "Kiln Profile On":
             if b.isChecked() == True:
@@ -372,7 +367,9 @@ class Ui_MainWindow(object):
                     LAST_KILN_STATE = CURRENT_KILN_STATE
                 CURRENT_KILN_STATE = KilnState.MANUAL_HEATING
                 self.pid_status = 'on'
-                self.profileTempTimer.stop()
+                #self.profileTempTimer.stop()
+                self.temperaturegraph.clear()
+                TEMP_TAKING_TIME = 0
                 if not math.isnan(self.sBKilnTargetTemp.value()):
                     self.targetTemp = self.sBKilnTargetTemp.value()
                     self.pid.SetPoint = self.targetTemp
