@@ -110,7 +110,7 @@ class Ui_MainWindow(object):
         self.current_temp.setObjectName("current_temp")
 
         self.current_profile_time = QtWidgets.QLabel(self.centralwidget)
-        self.current_profile_time.setGeometry(QtCore.QRect(40, 100, 140, 91))
+        self.current_profile_time.setGeometry(QtCore.QRect(40, 50, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(8)
@@ -120,6 +120,38 @@ class Ui_MainWindow(object):
         self.current_profile_time.setText("")
         self.current_profile_time.setObjectName("current_profile_time")
 
+        self.current_ramp = QtWidgets.QLabel(self.centralwidget)
+        self.current_ramp.setGeometry(QtCore.QRect(40, 70, 140, 91))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.current_ramp.setFont(font)
+        self.current_ramp.setText("")
+        self.current_ramp.setObjectName("current_ramp")
+
+        self.current_setpoint = QtWidgets.QLabel(self.centralwidget)
+        self.current_setpoint.setGeometry(QtCore.QRect(40, 90, 140, 91))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.current_setpoint.setFont(font)
+        self.current_setpoint.setText("")
+        self.current_setpoint.setObjectName("current_setpoint")
+
+        self.current_profilepoint = QtWidgets.QLabel(self.centralwidget)
+        self.current_profilepoint.setGeometry(QtCore.QRect(40, 110, 140, 91))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.current_profilepoint.setFont(font)
+        self.current_profilepoint.setText("")
+        self.current_profilepoint.setObjectName("current_profilepoint")
 
         #        self.pBSetKilnTargetTemp = QtWidgets.QPushButton(self.centralwidget)
         #        self.pBSetKilnTargetTemp.setGeometry(QtCore.QRect(20, 320, 221, 51))
@@ -331,7 +363,8 @@ class Ui_MainWindow(object):
         global PROFILE_TIME
         global CURRENT_RAMP
 
-        print("Profile Point Changed")
+        print("Profile Point Changed" + str(self.ProfilePoint.value()))
+
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             CURRENT_Temp_Profile_Number = self.ProfilePoint.value()
             profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
@@ -475,6 +508,10 @@ class Ui_MainWindow(object):
         global CURRENT_RAMP
         global CURRENT_SET_POINT
         self.current_profile_time.setText("Current Profile Time: " + str(PROFILE_TIME))
+        self.current_setpoint.setText("Current Setpoint" + str(CURRENT_SET_POINT))
+        self.current_ramp.setText("Current Ramp" + str(CURRENT_RAMP))
+        self.current_profilepoint.setText(("Current Profile Point" + str(CURRENT_Temp_Profile_Number)))
+
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
         if PROFILE_TIME > profilePoint[3] and CURRENT_Temp_Profile_Number < 7:
