@@ -198,20 +198,23 @@ class Ui_MainWindow(object):
         self.pidoutputlabel.setFont(font)
         self.pidoutputlabel.setObjectName("statelabel")
 
-        self.sBKilnTargetTemp = QtWidgets.QSpinBox(self.centralwidget)
-        self.sBKilnTargetTemp.setGeometry(QtCore.QRect(250, 350, 171, 61))
+        self.ProfilePoint = QtWidgets.QSpinBox(self.centralwidget)
+        self.ProfilePoint.setGeometry(QtCore.QRect(250, 350, 171, 61))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(14)
-        self.sBKilnTargetTemp.setFont(font)
-        self.sBKilnTargetTemp.setButtonSymbols(QtWidgets.QAbstractSpinBox.PlusMinus)
-        self.sBKilnTargetTemp.setAccelerated(True)
-        self.sBKilnTargetTemp.setMinimum(0)
-        self.sBKilnTargetTemp.setMaximum(1300)
-        self.sBKilnTargetTemp.setProperty("value", 0)
-        self.sBKilnTargetTemp.setObjectName("sBKilnTargetTemp")
+        self.ProfilePoint.setFont(font)
+        self.ProfilePoint.setButtonSymbols(QtWidgets.QAbstractSpinBox.PlusMinus)
+        self.ProfilePoint.setAccelerated(True)
+        self.ProfilePoint.setMinimum(0)
+        self.ProfilePoint.setMaximum(1300)
+        self.ProfilePoint.setProperty("value", 0)
+        self.ProfilePoint.setObjectName("ProfilePoint")
+        self.ProfilePoint.setMaximum(7)
+        self.ProfilePoint.setMinimum(1)
+        self.ProfilePoint.setValue(1)
 
-        self.sBKilnTargetTemp.valueChanged[int].connect(self.targetTempChange)
+        self.ProfilePoint.valueChanged[int].connect(self.targetTempChange)
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         # self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
@@ -266,7 +269,7 @@ class Ui_MainWindow(object):
         self.radioButton_2.setText(_translate("MainWindow", "Kiln Manual On"))
         self.radioButton.setText(_translate("MainWindow", "Kiln  Off"))
         self.label_2.setText(_translate("MainWindow", "Current Target Temperature"))
-        self.sBKilnTargetTemp.setSuffix(_translate("MainWindow", "°C"))
+        # self.ProfilePoint.setSuffix(_translate("MainWindow", "°C"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
 
     def plotProfile(self):
@@ -305,17 +308,34 @@ class Ui_MainWindow(object):
 
     def targetTempChange(self):
         print("targetTempChange Called")
-        self.targetTemp = self.sBKilnTargetTemp.value()
+        self.targetTemp = self.ProfilePoint.value()
         if CURRENT_KILN_STATE == KilnState.MANUAL_HEATING:
             self.pid.SetPoint = self.targetTemp
-        self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
-        self.radioButton_2.setEnabled(True)
+        #self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
+        #self.radioButton_2.setEnabled(True)
+
+    def manualChangeProfilePoint(self):
+        global CURRENT_Temp_Profile_Number
+        global PROFILE_TIME
+        global CURRENT_RAMP
+
+        print("Profile Point Changed")
+        if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
+            CURRENT_Temp_Profile_Number = self.ProfilePoint.value()
+            profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
+            PROFILE_TIME = profilePoint[2]  # we are setting PROFILE_TIME to the start time of the profile
+            ramp = profilePoint[1]
+            setPointTemp = profilePoint[4]
+            CURRENT_RAMP = ramp
+            self.pid.SetPoint = setPointTemp
+            self.updatePIDTemp(sensor.temperature)
+
 
     def setNewTargetTemp(self):
         print("setNewTargetTemp Called")
         self.targetTemp = int(self.setTempText.toPlainText())
         self.pid.SetPoint = self.targetTemp
-        self.sBKilnTargetTemp.setValue(self.targetTemp)
+        self.ProfilePoint.setValue(self.targetTemp)
         self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
 
     def setupProfile(self):
@@ -371,10 +391,10 @@ class Ui_MainWindow(object):
                 #self.profileTempTimer.stop()
                 #self.temperaturegraph.clear()
                 TEMP_TAKING_TIME = 0
-                if not math.isnan(self.sBKilnTargetTemp.value()):
-                    self.targetTemp = self.sBKilnTargetTemp.value()
+                if not math.isnan(self.ProfilePoint.value()):
+                    self.targetTemp = self.ProfilePoint.value()
                     self.pid.SetPoint = self.targetTemp
-                    print('sBKilnTargetTemp: ' + str(self.sBKilnTargetTemp.value()))
+                    print('sBKilnTargetTemp: ' + str(self.ProfilePoint.value()))
                     self.pid.SetPoint = self.targetTemp
                     # self.statelabel.setText("")
                     self.setTempText.setText(
@@ -396,6 +416,7 @@ class Ui_MainWindow(object):
         # print("UpdatePIDTemp Called")
         if not math.isnan(temp):  # We are going to make sure temp is not NaN then set to the new value if it isn't
             self.pid.update(temp)
+
         if self.pid.output > 100:
             self.pid_output = 100
         elif self.pid.output < 0:
@@ -531,7 +552,7 @@ class Ui_MainWindow(object):
         rsp = Dialog.exec_()
         if ui.lineEdit.text() != '' and rsp == QtWidgets.QDialog.Accepted:
             self.targetTemp = int(ui.lineEdit.text())
-            self.sBKilnTargetTemp.setValue(self.targetTemp)
+            self.ProfilePoint.setValue(self.targetTemp)
             self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
 
     def endProgram(self):
