@@ -371,6 +371,7 @@ class Ui_MainWindow(object):
             PROFILE_TIME = profilePoint[2]  # we are setting PROFILE_TIME to the start time of the profile
             ramp = profilePoint[1]
             setPointTemp = profilePoint[4]
+            CURRENT_SET_POINT = setPointTemp
             CURRENT_RAMP = ramp
             self.pid.SetPoint = setPointTemp
             self.updatePIDTemp(sensor.temperature)
@@ -508,9 +509,9 @@ class Ui_MainWindow(object):
         global CURRENT_RAMP
         global CURRENT_SET_POINT
         self.current_profile_time.setText("Current Profile Time: " + str(PROFILE_TIME))
-        self.current_setpoint.setText("Current Setpoint" + str(CURRENT_SET_POINT))
-        self.current_ramp.setText("Current Ramp" + str(CURRENT_RAMP))
-        self.current_profilepoint.setText(("Current Profile Point" + str(CURRENT_Temp_Profile_Number)))
+        self.current_setpoint.setText("Current Setpoint " + str(CURRENT_SET_POINT))
+        self.current_ramp.setText("Current Ramp " + str(CURRENT_RAMP))
+        self.current_profilepoint.setText(("Current Profile Point " + str(CURRENT_Temp_Profile_Number)))
 
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
