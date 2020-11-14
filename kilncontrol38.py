@@ -113,7 +113,7 @@ class Ui_MainWindow(object):
         self.current_profile_time.setGeometry(QtCore.QRect(40, 100, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
-        font.setPointSize(14)
+        font.setPointSize(8)
         font.setBold(True)
         font.setWeight(75)
         self.current_profile_time.setFont(font)
