@@ -109,6 +109,18 @@ class Ui_MainWindow(object):
         self.current_temp.setText("")
         self.current_temp.setObjectName("current_temp")
 
+        self.current_profile_time = QtWidgets.QLabel(self.centralwidget)
+        self.current_profile_time.setGeometry(QtCore.QRect(40, 100, 140, 91))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.current_profile_time.setFont(font)
+        self.current_profile_time.setText("")
+        self.current_profile_time.setObjectName("current_profile_time")
+
+
         #        self.pBSetKilnTargetTemp = QtWidgets.QPushButton(self.centralwidget)
         #        self.pBSetKilnTargetTemp.setGeometry(QtCore.QRect(20, 320, 221, 51))
         #        self.pBSetKilnTargetTemp.setObjectName("pBSetKilnTargetTemp")
@@ -462,7 +474,7 @@ class Ui_MainWindow(object):
         global CURRENT_PROFILE_RAMP_TEMP
         global CURRENT_RAMP
         global CURRENT_SET_POINT
-
+        self.current_profile_time.setText("Current Profile Time: " + str(PROFILE_TIME))
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
         if PROFILE_TIME > profilePoint[3] and CURRENT_Temp_Profile_Number < 7:
