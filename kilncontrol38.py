@@ -199,7 +199,7 @@ class Ui_MainWindow(object):
         self.pidoutputlabel.setObjectName("statelabel")
 
         self.ProfilePoint = QtWidgets.QSpinBox(self.centralwidget)
-        self.ProfilePoint.setGeometry(QtCore.QRect(250, 350, 171, 61))
+        self.ProfilePoint.setGeometry(QtCore.QRect(250, 350, 171, 41))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(14)
