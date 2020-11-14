@@ -329,7 +329,7 @@ class Ui_MainWindow(object):
         global CURRENT_TEMPERATURE
 
         # once I get spinner widget to set profile point the will will update the current temp profile number
-        self.temperaturegraph.clear()
+        #self.temperaturegraph.clear()
         self.plotProfile()
         temp_profile0 = Temp_Profile[0]
         temp_final_temp = temp_profile0[4]
@@ -369,7 +369,7 @@ class Ui_MainWindow(object):
                 CURRENT_KILN_STATE = KilnState.MANUAL_HEATING
                 self.pid_status = 'on'
                 #self.profileTempTimer.stop()
-                self.temperaturegraph.clear()
+                #self.temperaturegraph.clear()
                 TEMP_TAKING_TIME = 0
                 if not math.isnan(self.sBKilnTargetTemp.value()):
                     self.targetTemp = self.sBKilnTargetTemp.value()
