@@ -226,7 +226,7 @@ class Ui_MainWindow(object):
         self.ProfilePoint.setMinimum(1)
         self.ProfilePoint.setValue(1)
 
-        self.ProfilePoint.valueChanged[int].connect(self.targetTempChange)
+        self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         # self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
