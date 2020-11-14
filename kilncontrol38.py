@@ -336,7 +336,7 @@ class Ui_MainWindow(object):
         temp_starting_temp = sensor.temperature
         CURRENT_TEMPERATURE = temp_starting_temp
         temp_profile0[1] = (temp_final_temp - temp_starting_temp) / 60.0
-        print("Profile Temperature: " + str(temp_starting_temp))
+        #print("Profile Temperature: " + str(temp_starting_temp))
         START_TEMP = temp_starting_temp
         CURRENT_PROFILE_RAMP_TEMP = START_TEMP
         PROFILE_TIME = 0
@@ -411,7 +411,7 @@ class Ui_MainWindow(object):
         global CURRENT_PROFILE_RAMP_TEMP
         global CURRENT_RAMP
         global CURRENT_SET_POINT
-        print("updateProfileTime called")
+        # ("updateProfileTime called")
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             PROFILE_TIME = PROFILE_TIME + 1
             if CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT:
@@ -428,7 +428,7 @@ class Ui_MainWindow(object):
                     '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
                 # self.sBKilnTargetTemp.setValue(int(CURRENT_PROFILE_RAMP_TEMP))
 
-            print('current profile ramp temp: ' + str(CURRENT_PROFILE_RAMP_TEMP))
+            # print('current profile ramp temp: ' + str(CURRENT_PROFILE_RAMP_TEMP))
 
     def updateCurrentTemperatureText(self, temp):
         self.current_temp.setText(str(temp) + '\N{DEGREE SIGN}C')
