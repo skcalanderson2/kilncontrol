@@ -296,6 +296,7 @@ class Ui_MainWindow(object):
             TEMPERATURE_DATA_TIME.append(TEMP_TAKING_TIME)
             TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
         self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP)
+        print("TEMP_DATA: " + str(TEMPERATURE_DATA_TEMP))
         if CURRENT_KILN_STATE == KilnState.MANUAL_HEATING:
             TARGET_TEMPERATURE_LIST.append(self.targetTemp)
             self.targetTemperaturePlot.setData(TARGET_TEMPERATURE_LIST)
