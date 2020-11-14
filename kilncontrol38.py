@@ -362,6 +362,7 @@ class Ui_MainWindow(object):
         global CURRENT_Temp_Profile_Number
         global PROFILE_TIME
         global CURRENT_RAMP
+        global CURRENT_SET_POINT
 
         print("Profile Point Changed" + str(self.ProfilePoint.value()))
 
