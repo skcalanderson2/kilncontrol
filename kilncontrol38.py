@@ -29,7 +29,7 @@ spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 cs = digitalio.DigitalInOut(board.D5)
 sensor = adafruit_max31855.MAX31855(spi, cs)
 
-P = 1.0
+P = 2.0
 I = 1.0
 D = 0.005
 
