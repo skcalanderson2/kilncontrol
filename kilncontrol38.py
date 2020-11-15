@@ -388,9 +388,10 @@ class Ui_MainWindow(object):
             CURRENT_RAMP = ramp
             if ramp == 0.0:
                 CURRENT_PROFILE_RAMP_TEMP = setPointTemp
+                self.pid.SetPoint = setPointTemp
             else:
                 CURRENT_PROFILE_RAMP_TEMP = CURRENT_TEMPERATURE + ramp
-            self.pid.SetPoint = setPointTemp
+                self.pid.SetPoint = CURRENT_PROFILE_RAMP_TEMP
             self.updatePIDTemp(sensor.temperature)
 
 
