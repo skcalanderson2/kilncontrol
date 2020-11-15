@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
         self.current_profilepoint.setObjectName("current_profilepoint")
 
         self.current_ramp_temp = QtWidgets.QLabel(self.centralwidget)
-        self.current_ramp_temp.setGeometry(QtCore.QRect(40, 130, 140, 91))
+        self.current_ramp_temp.setGeometry(QtCore.QRect(40, 130, 160, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(8)
