@@ -29,7 +29,7 @@ spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 cs = digitalio.DigitalInOut(board.D5)
 sensor = adafruit_max31855.MAX31855(spi, cs)
 
-P = 1.2
+P = 2.0
 I = 1.0
 D = 0.005
 
@@ -386,7 +386,8 @@ class Ui_MainWindow(object):
             setPointTemp = profilePoint[4]
             CURRENT_SET_POINT = setPointTemp
             CURRENT_RAMP = ramp
-            CURRENT_PROFILE_RAMP_TEMP = setPointTemp
+            if ramp == 0.0:
+                CURRENT_PROFILE_RAMP_TEMP = setPointTemp
             self.pid.SetPoint = setPointTemp
             self.updatePIDTemp(sensor.temperature)
 
@@ -527,7 +528,7 @@ class Ui_MainWindow(object):
         self.current_setpoint.setText("Current Setpoint " + str(CURRENT_SET_POINT))
         self.current_ramp.setText("Current Ramp " + str(CURRENT_RAMP))
         self.current_profilepoint.setText(("Current Profile Point " + str(CURRENT_Temp_Profile_Number + 1)))
-        self.current_ramp_temp.setText("Current Ramp Temp" + str(CURRENT_PROFILE_RAMP_TEMP))
+        self.current_ramp_temp.setText("Current Ramp Temp " + str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
 
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
@@ -540,6 +541,7 @@ class Ui_MainWindow(object):
             CURRENT_SET_POINT = setPointTemp
             CURRENT_RAMP = ramp
             self.pid.SetPoint = setPointTemp
+            self.current_target_temp.setText(str(setPointTemp) + '\N{DEGREE SIGN}C')
 
         self.updatePIDTemp(current_temperature)
 
