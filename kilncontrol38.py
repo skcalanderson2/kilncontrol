@@ -153,6 +153,17 @@ class Ui_MainWindow(object):
         self.current_profilepoint.setText("")
         self.current_profilepoint.setObjectName("current_profilepoint")
 
+        self.current_ramp_temp = QtWidgets.QLabel(self.centralwidget)
+        self.current_ramp_temp.setGeometry(QtCore.QRect(40, 130, 140, 91))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.current_ramp_temp.setFont(font)
+        self.current_ramp_temp.setText("")
+        self.current_ramp_temp.setObjectName("current_ramp_temp")
+
         #        self.pBSetKilnTargetTemp = QtWidgets.QPushButton(self.centralwidget)
         #        self.pBSetKilnTargetTemp.setGeometry(QtCore.QRect(20, 320, 221, 51))
         #        self.pBSetKilnTargetTemp.setObjectName("pBSetKilnTargetTemp")
@@ -514,6 +525,7 @@ class Ui_MainWindow(object):
         self.current_setpoint.setText("Current Setpoint " + str(CURRENT_SET_POINT))
         self.current_ramp.setText("Current Ramp " + str(CURRENT_RAMP))
         self.current_profilepoint.setText(("Current Profile Point " + str(CURRENT_Temp_Profile_Number + 1)))
+        self.current_ramp_temp.setText("Current Ramp Temp" + str(CURRENT_PROFILE_RAMP_TEMP))
 
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
