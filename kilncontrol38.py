@@ -31,7 +31,7 @@ sensor = adafruit_max31855.MAX31855(spi, cs)
 
 P = 1.0
 I = 1.0
-D = 0.001
+D = 0.005
 
 Temp_Profile = [[1, 2.5, 0, 60, 150],
                 [2, 0.0, 61, 240, 150],
@@ -509,6 +509,7 @@ class Ui_MainWindow(object):
         global CURRENT_PROFILE_RAMP_TEMP
         global CURRENT_RAMP
         global CURRENT_SET_POINT
+
         self.current_profile_time.setText("Current Profile Time: " + str(PROFILE_TIME))
         self.current_setpoint.setText("Current Setpoint " + str(CURRENT_SET_POINT))
         self.current_ramp.setText("Current Ramp " + str(CURRENT_RAMP))
@@ -522,6 +523,7 @@ class Ui_MainWindow(object):
             profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
             ramp = profilePoint[1]
             setPointTemp = profilePoint[4]
+            CURRENT_SET_POINT = setPointTemp
             CURRENT_RAMP = ramp
             self.pid.SetPoint = setPointTemp
 
