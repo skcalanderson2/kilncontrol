@@ -99,7 +99,7 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
 
         self.current_temp = QtWidgets.QLabel(self.centralwidget)
-        self.current_temp.setGeometry(QtCore.QRect(40, 35, 140, 91))
+        self.current_temp.setGeometry(QtCore.QRect(40, 30, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(14)
@@ -256,7 +256,7 @@ class Ui_MainWindow(object):
         self.ProfilePoint.setObjectName("ProfilePoint")
         self.ProfilePoint.setMaximum(7)
         self.ProfilePoint.setMinimum(1)
-        self.ProfilePoint.setValue(1)
+        self.ProfilePoint.setValue(0)
 
         self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
 
@@ -364,10 +364,10 @@ class Ui_MainWindow(object):
         global CURRENT_RAMP
         global CURRENT_SET_POINT
 
-        print("Profile Point Changed" + str(self.ProfilePoint.value()))
+        print("Profile Point Changed" + str(self.ProfilePoint.value() - 1))
 
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
-            CURRENT_Temp_Profile_Number = self.ProfilePoint.value()
+            CURRENT_Temp_Profile_Number = self.ProfilePoint.value() - 1
             profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
             PROFILE_TIME = profilePoint[2]  # we are setting PROFILE_TIME to the start time of the profile
             ramp = profilePoint[1]
@@ -512,12 +512,13 @@ class Ui_MainWindow(object):
         self.current_profile_time.setText("Current Profile Time: " + str(PROFILE_TIME))
         self.current_setpoint.setText("Current Setpoint " + str(CURRENT_SET_POINT))
         self.current_ramp.setText("Current Ramp " + str(CURRENT_RAMP))
-        self.current_profilepoint.setText(("Current Profile Point " + str(CURRENT_Temp_Profile_Number)))
+        self.current_profilepoint.setText(("Current Profile Point " + str(CURRENT_Temp_Profile_Number + 1)))
 
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
         if PROFILE_TIME > profilePoint[3] and CURRENT_Temp_Profile_Number < 7:
             CURRENT_Temp_Profile_Number = CURRENT_Temp_Profile_Number + 1
+            self.ProfilePoint.setValue(CURRENT_Temp_Profile_Number + 1)
             profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
             ramp = profilePoint[1]
             setPointTemp = profilePoint[4]
