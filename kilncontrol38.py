@@ -374,6 +374,7 @@ class Ui_MainWindow(object):
         global PROFILE_TIME
         global CURRENT_RAMP
         global CURRENT_SET_POINT
+        global CURRENT_PROFILE_RAMP_TEMP
 
         print("Profile Point Changed" + str(self.ProfilePoint.value() - 1))
 
@@ -385,6 +386,7 @@ class Ui_MainWindow(object):
             setPointTemp = profilePoint[4]
             CURRENT_SET_POINT = setPointTemp
             CURRENT_RAMP = ramp
+            CURRENT_PROFILE_RAMP_TEMP = setPointTemp
             self.pid.SetPoint = setPointTemp
             self.updatePIDTemp(sensor.temperature)
 
