@@ -531,7 +531,11 @@ class Ui_MainWindow(object):
         self.current_setpoint.setText("Current Setpoint " + str(CURRENT_SET_POINT))
         self.current_ramp.setText("Current Ramp " + str(CURRENT_RAMP))
         self.current_profilepoint.setText(("Current Profile Point " + str(CURRENT_Temp_Profile_Number + 1)))
-        self.current_ramp_temp.setText("Current Ramp Temp " + str(CURRENT_PROFILE_RAMP_TEMP) + '\N{DEGREE SIGN}C')
+        self.current_ramp_temp.setText(
+            "Current Ramp Temp {:{width}.{prec}f}".format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2)
+            + '\N{DEGREE SIGN}C')
+        # self.setTempText.setText(
+        #    '{:{width}.{prec}f}'.format(CURRENT_PROFILE_RAMP_TEMP, width=6, prec=2) + '\N{DEGREE SIGN}C')
 
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
