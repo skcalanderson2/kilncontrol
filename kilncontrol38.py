@@ -297,7 +297,7 @@ class Ui_MainWindow(object):
 
         #P Slider Value Label
         self.p_slider_value_label = QtWidgets.QLabel(self.centralwidget)
-        self.p_slider_value_label.setGeometry(QtCore.QRect(405, 373, 10, 10))
+        self.p_slider_value_label.setGeometry(QtCore.QRect(405, 373, 20, 10))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(9)
