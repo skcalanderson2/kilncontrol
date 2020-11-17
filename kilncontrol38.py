@@ -413,7 +413,7 @@ class Ui_MainWindow(object):
 
     def update_p_value(self, value):
         self.pid.setKp(value/100)
-        self.p_slider_value_label.setText(str(value/100))
+        self.p_slider_value_label.setText(str(value))
 
     def manualChangeProfilePoint(self):
         global CURRENT_Temp_Profile_Number
