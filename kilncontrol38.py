@@ -278,11 +278,11 @@ class Ui_MainWindow(object):
         # PID Sliders
 
         self.P_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
-        self.P_Slider.setGeometry(250, 370, 100, 20)
+        self.P_Slider.setGeometry(250, 370, 150, 20)
 
         #P Slider Label
         self.p_slider_label = QtWidgets.QLabel(self.centralwidget)
-        self.p_slider_label.setGeometry(QtCore.QRect(245, 370, 10, 10))
+        self.p_slider_label.setGeometry(QtCore.QRect(242, 373, 10, 10))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(9)
