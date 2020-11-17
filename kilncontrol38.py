@@ -306,7 +306,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.p_slider_value_label.setFont(font)
         self.p_slider_value_label.setObjectName("p_slider_label")
-        self.p_slider_value_label.setText(str(float(self.P_Slider.value())/100))
+        self.p_slider_value_label.setText(str(float(self.P_Slider.value())/10))
 
         # I Slider
         self.I_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
