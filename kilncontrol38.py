@@ -351,7 +351,7 @@ class Ui_MainWindow(object):
         self.current_target_temp_label.setText(_translate("MainWindow", "Current Target Temperature"))
         # self.ProfilePoint.setSuffix(_translate("MainWindow", "°C"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
-        self.p_slider_label.setText("MainWindow", "P")
+        self.p_slider_label.setText(_translate("MainWindow", "P"))
 
     def plotProfile(self):
         # Temp_Profile = [[1, 2.5, 0, 60, 150],
