@@ -276,6 +276,18 @@ class Ui_MainWindow(object):
         self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
 
         # PID Sliders
+        #P Slider Value Label
+        self.p_slider_value_label = QtWidgets.QLabel(self.centralwidget)
+        self.p_slider_value_label.setGeometry(QtCore.QRect(405, 373, 30, 10))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.p_slider_value_label.setFont(font)
+        self.p_slider_value_label.setObjectName("p_slider_label")
+        self.p_slider_value_label.setText(str(float(self.P_Slider.value())/10))
+
         # P Slider
         self.P_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
         self.P_Slider.setGeometry(250, 370, 150, 20)
@@ -296,17 +308,17 @@ class Ui_MainWindow(object):
         self.p_slider_label.setFont(font)
         self.p_slider_label.setObjectName("p_slider_label")
 
-        #P Slider Value Label
-        self.p_slider_value_label = QtWidgets.QLabel(self.centralwidget)
-        self.p_slider_value_label.setGeometry(QtCore.QRect(405, 373, 30, 10))
+        # I Slider Value Label
+        self.i_slider_value_label = QtWidgets.QLabel(self.centralwidget)
+        self.i_slider_value_label.setGeometry(QtCore.QRect(405, 393, 30, 10))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(9)
         font.setBold(True)
         font.setWeight(75)
-        self.p_slider_value_label.setFont(font)
-        self.p_slider_value_label.setObjectName("p_slider_label")
-        #self.p_slider_value_label.setText(str(float(self.P_Slider.value())/10))
+        self.i_slider_value_label.setFont(font)
+        self.i_slider_value_label.setObjectName("i_slider_value_label")
+        self.i_slider_value_label.setText("1.0")
 
         # I Slider
         self.I_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
@@ -327,19 +339,6 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.i_slider_label.setFont(font)
         self.i_slider_label.setObjectName("i_slider_label")
-
-        # I Slider Value Label
-        self.i_slider_value_label = QtWidgets.QLabel(self.centralwidget)
-        self.i_slider_value_label.setGeometry(QtCore.QRect(405, 393, 30, 10))
-        font = QtGui.QFont()
-        font.setFamily("FreeSans")
-        font.setPointSize(9)
-        font.setBold(True)
-        font.setWeight(75)
-        self.i_slider_value_label.setFont(font)
-        self.i_slider_value_label.setObjectName("i_slider_value_label")
-        self.i_slider_value_label.setText("1.0")
-
 
 
 
