@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
+from QtWidgets import QSlider
+
 import board
 import busio
 import digitalio
@@ -270,8 +272,10 @@ class Ui_MainWindow(object):
         self.ProfilePoint.setMaximum(7)
         self.ProfilePoint.setMinimum(1)
         self.ProfilePoint.setValue(0)
-
         self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
+
+        # PID Sliders
+        self.P_Slider = QtWidgets.
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         # self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
