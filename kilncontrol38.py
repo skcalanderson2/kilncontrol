@@ -306,7 +306,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.p_slider_value_label.setFont(font)
         self.p_slider_value_label.setObjectName("p_slider_label")
-        self.p_slider_value_label.setText(str(self.P_Slider.value()))
+        self.p_slider_value_label.setText(str(float(self.P_Slider.value())/100))
 
         # I Slider
         self.I_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
@@ -451,7 +451,7 @@ class Ui_MainWindow(object):
 
     def update_i_value(self, value):
         self.pid.setKi(float(value)/100)
-        self.p_slider_value_label.setText(str(float(value)/10))
+        self.i_slider_value_label.setText(str(float(value)/10))
 
     def manualChangeProfilePoint(self):
         global CURRENT_Temp_Profile_Number
