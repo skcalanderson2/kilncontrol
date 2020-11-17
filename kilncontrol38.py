@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import Qt, QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QSlider
+#from PyQt5.QtWidgets import QSlider
 from PyQt5.QtCore import Qt as Qtc
 
 import board
@@ -276,7 +276,7 @@ class Ui_MainWindow(object):
         self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
 
         # PID Sliders
-        self.P_Slider = QSlider(Qtc.Horizontal, self)
+        self.P_Slider = QtWidgets.QSlider(self.centralwidget)
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         # self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
