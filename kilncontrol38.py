@@ -276,7 +276,8 @@ class Ui_MainWindow(object):
         self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
 
         # PID Sliders
-        self.P_Slider = QtWidgets.QSlider(self.centralwidget)
+        self.P_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
+        self.P_Slider.setGeometry(250, 350, 100, 20)
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         # self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
