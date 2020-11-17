@@ -283,6 +283,7 @@ class Ui_MainWindow(object):
         self.P_Slider.setMaximum(100)
         self.P_Slider.setTickInterval(1)
         self.P_Slider.valueChanged[int].connect(self.update_p_value)
+        self.P_Slider.setValue(1)
 
         #P Slider Label
         self.p_slider_label = QtWidgets.QLabel(self.centralwidget)
@@ -305,7 +306,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.p_slider_value_label.setFont(font)
         self.p_slider_value_label.setObjectName("p_slider_label")
-
+        self.p_slider_value_label.setText("1.0")
 
 
 
