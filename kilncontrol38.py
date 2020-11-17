@@ -283,7 +283,7 @@ class Ui_MainWindow(object):
         self.P_Slider.setMaximum(100)
         self.P_Slider.setTickInterval(1)
         self.P_Slider.valueChanged[int].connect(self.update_p_value)
-        self.P_Slider.setValue(1)
+        self.P_Slider.setValue(20)
 
         #P Slider Label
         self.p_slider_label = QtWidgets.QLabel(self.centralwidget)
@@ -306,7 +306,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.p_slider_value_label.setFont(font)
         self.p_slider_value_label.setObjectName("p_slider_label")
-        self.p_slider_value_label.setText("1.0")
+        self.p_slider_value_label.setText(str(self.P_Slider.value()))
 
         # I Slider
         self.I_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
@@ -401,6 +401,7 @@ class Ui_MainWindow(object):
         # self.ProfilePoint.setSuffix(_translate("MainWindow", "°C"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
         self.p_slider_label.setText(_translate("MainWindow", "P"))
+        self.i_slider_label.setText(_translate("MainWindow", "I"))
 
     def plotProfile(self):
         # Temp_Profile = [[1, 2.5, 0, 60, 150],
