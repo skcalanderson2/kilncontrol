@@ -279,6 +279,10 @@ class Ui_MainWindow(object):
 
         self.P_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
         self.P_Slider.setGeometry(250, 370, 150, 20)
+        self.P_Slider.setMinimum(1.0)
+        self.P_Slider.setMaximum(10.0)
+        self.P_Slider.setTickInterval(0.1)
+        self.P_Slider.valueChanged[int].connect(self.update_p_value)
 
         #P Slider Label
         self.p_slider_label = QtWidgets.QLabel(self.centralwidget)
@@ -290,6 +294,18 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.p_slider_label.setFont(font)
         self.p_slider_label.setObjectName("p_slider_label")
+
+        #P Slider Value Label
+        self.p_slider_value_label = QtWidgets.QLabel(self.centralwidget)
+        self.p_slider_value_label.setGeometry(QtCore.QRect(405, 373, 10, 10))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.p_slider_value_label.setFont(font)
+        self.p_slider_value_label.setObjectName("p_slider_label")
+
 
 
 
@@ -394,6 +410,10 @@ class Ui_MainWindow(object):
             self.pid.SetPoint = self.targetTemp
         #self.setTempText.setText(str(self.targetTemp) + '\N{DEGREE SIGN}C')
         #self.radioButton_2.setEnabled(True)
+
+    def update_p_value(self, value):
+        self.pid.setKp(value)
+        self.p_slider_value_label.setText(str(value))
 
     def manualChangeProfilePoint(self):
         global CURRENT_Temp_Profile_Number
