@@ -276,8 +276,23 @@ class Ui_MainWindow(object):
         self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
 
         # PID Sliders
+
         self.P_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
-        self.P_Slider.setGeometry(250, 350, 100, 20)
+        self.P_Slider.setGeometry(250, 370, 100, 20)
+
+        #P Slider Label
+        self.p_slider_label = QtWidgets.QLabel(self.centralwidget)
+        self.p_slider_label.setGeometry(QtCore.QRect(245, 370, 10, 10))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.p_slider_label.setFont(font)
+        self.p_slider_label.setObjectName("p_slider_label")
+
+
+
 
         self.element_image = QtWidgets.QLabel(self.centralwidget)
         # self.element_image.setGeometry(QtCore.QRect(400, 30, 381, 201))
@@ -336,6 +351,7 @@ class Ui_MainWindow(object):
         self.current_target_temp_label.setText(_translate("MainWindow", "Current Target Temperature"))
         # self.ProfilePoint.setSuffix(_translate("MainWindow", "°C"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
+        self.p_slider_label.setText("MainWindow", "P")
 
     def plotProfile(self):
         # Temp_Profile = [[1, 2.5, 0, 60, 150],
