@@ -412,8 +412,8 @@ class Ui_MainWindow(object):
         #self.radioButton_2.setEnabled(True)
 
     def update_p_value(self, value):
-        self.pid.setKp(value/10)
-        self.p_slider_value_label.setText(str(value/10))
+        self.pid.setKp(value/100)
+        self.p_slider_value_label.setText(str(value/100))
 
     def manualChangeProfilePoint(self):
         global CURRENT_Temp_Profile_Number
