@@ -427,8 +427,13 @@ class Ui_MainWindow(object):
             TEMPERATURE_DATA_TIME.append(PROFILE_TIME)
             TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
         else:
-            TEMPERATURE_DATA_TIME.append(TEMP_TAKING_TIME)
-            TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
+            if TEMP_TAKING_TIME > 1:
+                TEMPERATURE_DATA_TIME.append(TEMP_TAKING_TIME)
+                TEMPERATURE_DATA_TEMP.append(CURRENT_TEMPERATURE)
+            else:
+                TEMPERATURE_DATA_TIME = [TEMP_TAKING_TIME]
+                TEMPERATURE_DATA_TEMP = [CURRENT_TEMPERATURE]
+
         self.currentTemperaturePlot.setData(TEMPERATURE_DATA_TIME, TEMPERATURE_DATA_TEMP)
 
         if CURRENT_KILN_STATE == KilnState.MANUAL_HEATING:
