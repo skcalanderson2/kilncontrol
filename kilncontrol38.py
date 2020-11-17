@@ -99,7 +99,7 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
 
         self.current_temp = QtWidgets.QLabel(self.centralwidget)
-        self.current_temp.setGeometry(QtCore.QRect(40, 30, 140, 91))
+        self.current_temp.setGeometry(QtCore.QRect(20, 30, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(14)
@@ -110,7 +110,7 @@ class Ui_MainWindow(object):
         self.current_temp.setObjectName("current_temp")
 
         self.current_profile_time = QtWidgets.QLabel(self.centralwidget)
-        self.current_profile_time.setGeometry(QtCore.QRect(40, 50, 140, 91))
+        self.current_profile_time.setGeometry(QtCore.QRect(20, 50, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(8)
@@ -121,7 +121,7 @@ class Ui_MainWindow(object):
         self.current_profile_time.setObjectName("current_profile_time")
 
         self.current_ramp = QtWidgets.QLabel(self.centralwidget)
-        self.current_ramp.setGeometry(QtCore.QRect(40, 70, 140, 91))
+        self.current_ramp.setGeometry(QtCore.QRect(20, 70, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(8)
@@ -132,7 +132,7 @@ class Ui_MainWindow(object):
         self.current_ramp.setObjectName("current_ramp")
 
         self.current_setpoint = QtWidgets.QLabel(self.centralwidget)
-        self.current_setpoint.setGeometry(QtCore.QRect(40, 90, 140, 91))
+        self.current_setpoint.setGeometry(QtCore.QRect(20, 90, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(8)
@@ -143,7 +143,7 @@ class Ui_MainWindow(object):
         self.current_setpoint.setObjectName("current_setpoint")
 
         self.current_profilepoint = QtWidgets.QLabel(self.centralwidget)
-        self.current_profilepoint.setGeometry(QtCore.QRect(40, 110, 140, 91))
+        self.current_profilepoint.setGeometry(QtCore.QRect(20, 110, 140, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(8)
@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
         self.current_profilepoint.setObjectName("current_profilepoint")
 
         self.current_ramp_temp = QtWidgets.QLabel(self.centralwidget)
-        self.current_ramp_temp.setGeometry(QtCore.QRect(40, 130, 160, 91))
+        self.current_ramp_temp.setGeometry(QtCore.QRect(20, 130, 160, 91))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(8)
@@ -212,6 +212,7 @@ class Ui_MainWindow(object):
         self.setTempText.setObjectName("setTempText")
         self.setTempText.mousePressEvent = self.showgetSetTempDialog
 
+        # Misplaced Label, Need to fix
         self.current_target_temp = QtWidgets.QLabel(self.centralwidget)
         self.current_target_temp.setGeometry(QtCore.QRect(250, 240, 111, 41))
         font = QtGui.QFont()
@@ -309,10 +310,12 @@ class Ui_MainWindow(object):
         # QtCore.QMetaObject.connectSlotsByName(MainWindow)
         # self.setupProfile()
         self.temperaturegraph = pg.PlotWidget(self.centralwidget)
-        self.temperaturegraph.setGeometry(300, 20, 450, 250)
+        self.temperaturegraph.setGeometry(320, 20, 450, 250)
         # self.plotProfile()
         self.currentTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('y', style=QtCore.Qt.DashLine, width=2))
         self.targetTemperaturePlot = self.temperaturegraph.plot([0], [0], pen=pg.mkPen('w', width=2))
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -548,7 +551,7 @@ class Ui_MainWindow(object):
             CURRENT_SET_POINT = setPointTemp
             CURRENT_RAMP = ramp
             self.pid.SetPoint = setPointTemp
-            self.current_target_temp.setText(str(setPointTemp) + '\N{DEGREE SIGN}C')
+            # self.current_target_temp.setText(str(setPointTemp) + '\N{DEGREE SIGN}C')
 
         self.updatePIDTemp(current_temperature)
 
