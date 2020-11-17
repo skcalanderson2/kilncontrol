@@ -315,7 +315,7 @@ class Ui_MainWindow(object):
         self.I_Slider.setMaximum(100)
         self.I_Slider.setTickInterval(1)
         self.I_Slider.valueChanged[int].connect(self.update_i_value)
-        self.I_Slider.setValue(1)
+        self.I_Slider.setValue(10)
 
         # I Slider Label
         self.i_slider_label = QtWidgets.QLabel(self.centralwidget)
