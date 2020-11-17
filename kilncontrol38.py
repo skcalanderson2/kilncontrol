@@ -276,7 +276,7 @@ class Ui_MainWindow(object):
         self.ProfilePoint.valueChanged[int].connect(self.manualChangeProfilePoint)
 
         # PID Sliders
-
+        # P Slider
         self.P_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
         self.P_Slider.setGeometry(250, 370, 150, 20)
         self.P_Slider.setMinimum(1)
@@ -307,6 +307,38 @@ class Ui_MainWindow(object):
         self.p_slider_value_label.setFont(font)
         self.p_slider_value_label.setObjectName("p_slider_label")
         self.p_slider_value_label.setText("1.0")
+
+        # I Slider
+        self.I_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
+        self.I_Slider.setGeometry(250, 390, 150, 20)
+        self.I_Slider.setMinimum(1)
+        self.I_Slider.setMaximum(100)
+        self.I_Slider.setTickInterval(1)
+        self.I_Slider.valueChanged[int].connect(self.update_i_value)
+        self.I_Slider.setValue(1)
+
+        # I Slider Label
+        self.i_slider_label = QtWidgets.QLabel(self.centralwidget)
+        self.i_slider_label.setGeometry(QtCore.QRect(242, 393, 10, 10))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.i_slider_label.setFont(font)
+        self.i_slider_label.setObjectName("i_slider_label")
+
+        # I Slider Value Label
+        self.i_slider_value_label = QtWidgets.QLabel(self.centralwidget)
+        self.i_slider_value_label.setGeometry(QtCore.QRect(405, 393, 30, 10))
+        font = QtGui.QFont()
+        font.setFamily("FreeSans")
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.i_slider_value_label.setFont(font)
+        self.i_slider_value_label.setObjectName("i_slider_value_label")
+        self.i_slider_value_label.setText("1.0")
 
 
 
@@ -414,6 +446,10 @@ class Ui_MainWindow(object):
 
     def update_p_value(self, value):
         self.pid.setKp(float(value)/100)
+        self.p_slider_value_label.setText(str(float(value)/10))
+
+    def update_i_value(self, value):
+        self.pid.setKi(float(value)/100)
         self.p_slider_value_label.setText(str(float(value)/10))
 
     def manualChangeProfilePoint(self):
