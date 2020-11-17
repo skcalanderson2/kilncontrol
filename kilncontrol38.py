@@ -279,9 +279,9 @@ class Ui_MainWindow(object):
 
         self.P_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
         self.P_Slider.setGeometry(250, 370, 150, 20)
-        self.P_Slider.setMinimum(1.0)
-        self.P_Slider.setMaximum(10.0)
-        self.P_Slider.setTickInterval(0.1)
+        self.P_Slider.setMinimum(1)
+        self.P_Slider.setMaximum(100)
+        self.P_Slider.setTickInterval(1)
         self.P_Slider.valueChanged[int].connect(self.update_p_value)
 
         #P Slider Label
@@ -412,8 +412,8 @@ class Ui_MainWindow(object):
         #self.radioButton_2.setEnabled(True)
 
     def update_p_value(self, value):
-        self.pid.setKp(value)
-        self.p_slider_value_label.setText(str(value))
+        self.pid.setKp(value/10)
+        self.p_slider_value_label.setText(str(value/10))
 
     def manualChangeProfilePoint(self):
         global CURRENT_Temp_Profile_Number
