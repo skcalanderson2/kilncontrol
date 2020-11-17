@@ -79,6 +79,8 @@ class PID:
         delta_time = self.current_time - self.last_time
         delta_error = error - self.last_error
 
+        print("PID error:" + str(error))
+
         if (delta_time >= self.sample_time):
             self.PTerm = self.Kp * error
             self.ITerm += error * delta_time
