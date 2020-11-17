@@ -297,7 +297,7 @@ class Ui_MainWindow(object):
 
         #P Slider Value Label
         self.p_slider_value_label = QtWidgets.QLabel(self.centralwidget)
-        self.p_slider_value_label.setGeometry(QtCore.QRect(405, 373, 20, 10))
+        self.p_slider_value_label.setGeometry(QtCore.QRect(405, 373, 30, 10))
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(9)
@@ -413,7 +413,7 @@ class Ui_MainWindow(object):
 
     def update_p_value(self, value):
         self.pid.setKp(float(value)/100)
-        self.p_slider_value_label.setText(str(float(value)/100))
+        self.p_slider_value_label.setText(str(float(value)/10))
 
     def manualChangeProfilePoint(self):
         global CURRENT_Temp_Profile_Number
