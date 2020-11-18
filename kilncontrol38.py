@@ -324,13 +324,13 @@ class Ui_MainWindow(object):
         # I Slider
         self.I_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
         self.I_Slider.setGeometry(250, 390, 150, 20)
-        self.I_Slider.setMinimum(1)
-        self.I_Slider.setMaximum(100)
+        self.I_Slider.setMinimum(2)
+        self.I_Slider.setMaximum(500)
         self.I_Slider.setTickInterval(1)
         self.I_Slider.valueChanged[int].connect(self.update_i_value)
         self.I_Slider.setValue(1)
 
-        self.i_slider_value_label.setText(str(float(self.P_Slider.value())/2))
+        self.i_slider_value_label.setText(str(float(self.P_Slider.value())/10))
 
         # I Slider Label
         self.i_slider_label = QtWidgets.QLabel(self.centralwidget)
@@ -457,8 +457,8 @@ class Ui_MainWindow(object):
         self.p_slider_value_label.setText(str(value))
 
     def update_i_value(self, value):
-        self.pid.setKi(float(value)/2)
-        self.i_slider_value_label.setText(str(float(value)/2))
+        self.pid.setKi(float(value)/10)
+        self.i_slider_value_label.setText(str(float(value)/10))
 
     def manualChangeProfilePoint(self):
         global CURRENT_Temp_Profile_Number
