@@ -32,8 +32,8 @@ spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 cs = digitalio.DigitalInOut(board.D5)
 sensor = adafruit_max31855.MAX31855(spi, cs)
 
-P = 2.0
-I = 1.0
+P = 18.0
+I = 0.2
 D = 0.005
 
 Temp_Profile = [[1, 2.5, 0, 60, 150],
@@ -294,7 +294,7 @@ class Ui_MainWindow(object):
         self.P_Slider.setMaximum(100)
         self.P_Slider.setTickInterval(1)
         self.P_Slider.valueChanged[int].connect(self.update_p_value)
-        self.P_Slider.setValue(2)
+        self.P_Slider.setValue(18)
 
         self.p_slider_value_label.setText(str(self.P_Slider.value()))
 
@@ -319,7 +319,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.i_slider_value_label.setFont(font)
         self.i_slider_value_label.setObjectName("i_slider_value_label")
-        self.i_slider_value_label.setText("1.0")
+        self.i_slider_value_label.setText("0.2")
 
         # I Slider
         self.I_Slider = QtWidgets.QSlider(self.centralwidget, orientation=Qtc.Horizontal)
@@ -328,7 +328,7 @@ class Ui_MainWindow(object):
         self.I_Slider.setMaximum(500)
         self.I_Slider.setTickInterval(1)
         self.I_Slider.valueChanged[int].connect(self.update_i_value)
-        self.I_Slider.setValue(1)
+        self.I_Slider.setValue(2)
 
         self.i_slider_value_label.setText(str(float(self.P_Slider.value())/10))
 
@@ -590,7 +590,7 @@ class Ui_MainWindow(object):
         # ("updateProfileTime called")
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             PROFILE_TIME = PROFILE_TIME + 1
-            if CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT:
+            if (CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT) or (CURRENT_RAMP < 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT):
                 CURRENT_PROFILE_RAMP_TEMP = CURRENT_PROFILE_RAMP_TEMP + CURRENT_RAMP
 
             if CURRENT_PROFILE_RAMP_TEMP > CURRENT_SET_POINT:
@@ -630,7 +630,7 @@ class Ui_MainWindow(object):
 
         # check to see if we need to switch profile steps because profile time moved to next step
         profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
-        if PROFILE_TIME > profilePoint[3] and CURRENT_Temp_Profile_Number < 7:
+        if PROFILE_TIME > profilePoint[3] and CURRENT_Temp_Profile_Number < 8:
             CURRENT_Temp_Profile_Number = CURRENT_Temp_Profile_Number + 1
             self.ProfilePoint.setValue(CURRENT_Temp_Profile_Number + 1)
             profilePoint = Temp_Profile[CURRENT_Temp_Profile_Number]
