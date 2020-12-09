@@ -590,10 +590,10 @@ class Ui_MainWindow(object):
         # ("updateProfileTime called")
         if CURRENT_KILN_STATE == KilnState.PROFILE_HEATING:
             PROFILE_TIME = PROFILE_TIME + 1
-            if (CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT) or (CURRENT_RAMP < 0.0 and CURRENT_PROFILE_RAMP_TEMP > CURRENT_SET_POINT):
+            if (CURRENT_RAMP > 0.0 and CURRENT_PROFILE_RAMP_TEMP < CURRENT_SET_POINT) or (CURRENT_RAMP < 0.0):
                 CURRENT_PROFILE_RAMP_TEMP = CURRENT_PROFILE_RAMP_TEMP + CURRENT_RAMP
 
-            if CURRENT_PROFILE_RAMP_TEMP > CURRENT_SET_POINT:
+            if (CURRENT_PROFILE_RAMP_TEMP > CURRENT_SET_POINT) and (CURRENT_RAMP >= 0.0):
                 self.pid.SetPoint = CURRENT_SET_POINT
                 self.setTempText.setText(
                     '{:{width}.{prec}f}'.format(CURRENT_SET_POINT, width=6, prec=2) + '\N{DEGREE SIGN}C')
